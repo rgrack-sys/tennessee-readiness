@@ -1,0 +1,14 @@
+# Ignore archive zips and duplicate versions
+*.zip
+tennessee-readiness/
+tnr-v3 (1)/
+
+# Claude memory/config
+.claude/
+
+# Raw photos (outside site)
+Pictures/
+
+# OS files
+Thumbs.db
+.DS_Store
