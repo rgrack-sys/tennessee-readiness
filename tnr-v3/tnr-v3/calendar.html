@@ -30,7 +30,6 @@
         <div class="section-label" style="color:var(--clay);">Training &amp; Seminars</div>
         <h2 class="section-title">Class Schedule</h2>
       </div>
-      <button class="add-class-btn" onclick="openAddModal()">+ Add Class</button>
     </div>
 
     <div class="cal-nav">
@@ -95,51 +94,6 @@
   </div>
 </footer>
 
-<!-- ── ADD CLASS MODAL ── -->
-<div class="modal-overlay" id="addModal">
-  <div class="modal">
-    <button class="modal-close" onclick="closeAddModal()">&#x2715;</button>
-    <h2>Add New Class</h2>
-    <div class="form-group">
-      <label>Class Title *</label>
-      <input type="text" id="f-title" placeholder="e.g. Wilderness First Aid Basics">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Date *</label>
-        <input type="date" id="f-date">
-      </div>
-      <div class="form-group">
-        <label>Category *</label>
-        <select id="f-cat">
-          <option value="">Select category</option>
-          <option value="camping">Camping</option>
-          <option value="preparedness">Preparedness</option>
-          <option value="hiking">Hiking</option>
-          <option value="first-aid">First Aid</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Start Time</label><input type="time" id="f-start"></div>
-      <div class="form-group"><label>End Time</label><input type="time" id="f-end"></div>
-    </div>
-    <div class="form-group">
-      <label>Instructor</label>
-      <input type="text" id="f-instructor" placeholder="Instructor name">
-    </div>
-    <div class="form-group">
-      <label>Max Capacity</label>
-      <input type="number" id="f-capacity" placeholder="e.g. 20" min="1">
-    </div>
-    <div class="form-group">
-      <label>Description</label>
-      <textarea id="f-desc" placeholder="What will participants learn?"></textarea>
-    </div>
-    <button class="form-submit" onclick="saveClass()">Save Class to Calendar</button>
-  </div>
-</div>
-
 <!-- ── EVENT DETAIL MODAL ── -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal detail-modal">
@@ -153,9 +107,6 @@
       <div class="detail-meta-row" id="d-cap-row"><strong>Capacity</strong><span id="d-cap"></span></div>
     </div>
     <p class="detail-desc" id="d-desc"></p>
-    <div class="detail-actions">
-      <button class="btn-danger" id="deleteBtn">Delete Class</button>
-    </div>
   </div>
 </div>
 
@@ -163,7 +114,6 @@
 // ── STATE ──────────────────────────────────────────────────────────────────
 let classes = JSON.parse(localStorage.getItem('tnr_classes') || '[]');
 let currentYear, currentMonth;
-let selectedEventId = null;
 
 const MONTHS = ['January','February','March','April','May','June','July',
                 'August','September','October','November','December'];
@@ -175,8 +125,6 @@ const CAT_LABELS = {
   hiking:       '🥾 Hiking',
   'first-aid':  '🩹 First Aid'
 };
-
-function save() { localStorage.setItem('tnr_classes', JSON.stringify(classes)); }
 
 // ── INIT ────────────────────────────────────────────────────────────────────
 function init() {
@@ -245,7 +193,6 @@ function makeCell(day, otherMonth, dateStr, isToday, events) {
       evDiv.onclick = e => { e.stopPropagation(); openDetail(ev.id); };
       cell.appendChild(evDiv);
     });
-    if (!otherMonth) cell.onclick = () => openAddModal(dateStr);
   }
   return cell;
 }
@@ -260,7 +207,7 @@ function renderUpcoming() {
 
   const list = document.getElementById('upcomingList');
   if (upcoming.length === 0) {
-    list.innerHTML = '<p style="color:var(--stone);font-size:0.9rem;">No upcoming classes scheduled. Click \"+ Add Class\" to get started.</p>';
+    list.innerHTML = '<p style="color:var(--stone);font-size:0.9rem;">No upcoming classes scheduled. Check back soon.</p>';
     return;
   }
   list.innerHTML = upcoming.map(ev => {
@@ -285,37 +232,10 @@ function formatTime(t) {
   return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${h >= 12 ? 'PM' : 'AM'}`;
 }
 
-// ── ADD MODAL ───────────────────────────────────────────────────────────────
-function openAddModal(date) {
-  if (date) document.getElementById('f-date').value = date;
-  document.getElementById('addModal').classList.add('active');
-}
-function closeAddModal() {
-  document.getElementById('addModal').classList.remove('active');
-  ['f-title','f-date','f-cat','f-start','f-end','f-instructor','f-capacity','f-desc']
-    .forEach(id => { document.getElementById(id).value = ''; });
-}
-function saveClass() {
-  const title = document.getElementById('f-title').value.trim();
-  const date  = document.getElementById('f-date').value;
-  const cat   = document.getElementById('f-cat').value;
-  if (!title || !date || !cat) { alert('Please fill in Title, Date, and Category.'); return; }
-  classes.push({
-    id: Date.now(), title, date, cat,
-    start:      document.getElementById('f-start').value,
-    end:        document.getElementById('f-end').value,
-    instructor: document.getElementById('f-instructor').value.trim(),
-    capacity:   document.getElementById('f-capacity').value,
-    desc:       document.getElementById('f-desc').value.trim(),
-  });
-  save(); closeAddModal(); renderCalendar(); renderUpcoming();
-}
-
 // ── DETAIL MODAL ────────────────────────────────────────────────────────────
 function openDetail(id) {
   const ev = classes.find(c => c.id === id);
   if (!ev) return;
-  selectedEventId = id;
   document.getElementById('d-cat').textContent   = CAT_LABELS[ev.cat] || ev.cat;
   document.getElementById('d-title').textContent = ev.title;
   const d = new Date(ev.date + 'T00:00:00');
@@ -331,16 +251,9 @@ function openDetail(id) {
   else { capRow.style.display = 'none'; }
   document.getElementById('d-desc').textContent = ev.desc || '';
   document.getElementById('detailModal').classList.add('active');
-  document.getElementById('deleteBtn').onclick = () => deleteClass(selectedEventId);
 }
 function closeDetailModal() {
   document.getElementById('detailModal').classList.remove('active');
-  selectedEventId = null;
-}
-function deleteClass(id) {
-  if (!confirm('Delete this class?')) return;
-  classes = classes.filter(c => c.id !== id);
-  save(); closeDetailModal(); renderCalendar(); renderUpcoming();
 }
 
 init();
