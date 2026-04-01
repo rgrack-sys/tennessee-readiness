@@ -12,6 +12,9 @@
 <!-- ── NAV ── -->
 <nav>
   <a class="nav-brand" href="#home" style="display:flex;align-items:center;gap:0.6rem;"><img src="images/logo.jpg" alt="Tennessee Readiness" alt="TNR Logo" style="width:36px;height:36px;border-radius:50%;object-fit:cover;">Tennessee <span>Readiness</span></a>
+  <button class="nav-hamburger" onclick="toggleNav()" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#info">Visit</a></li>
@@ -108,7 +111,7 @@
       </div>
 
       <!-- Social -->
-      <div class="info-card" style="grid-column: span 2;">
+      <div class="info-card info-card-social" style="grid-column: span 2;">
         <div class="info-card-icon">🌐</div>
         <div class="info-card-label">Follow Us</div>
         <div class="social-links">
@@ -176,7 +179,7 @@
     </div>
 
     <!-- The Big Chair Feature -->
-    <div style="margin: 0 0 5rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(255,255,255,0.06);">
+    <div class="big-chair-grid" style="margin: 0 0 5rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(255,255,255,0.06);">
 
       <div style="background: var(--bark); padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center;">
         <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--clay); margin-bottom: 0.75rem;">A Tennessee Readiness Landmark</div>
@@ -375,6 +378,18 @@ function renderApprovedGallery() {
 }
 
 renderApprovedGallery();
+
+// ── HAMBURGER NAV ──────────────────────────────────────────────────────────
+function toggleNav() {
+  document.querySelector('.nav-hamburger').classList.toggle('is-open');
+  document.querySelector('.nav-links').classList.toggle('is-open');
+}
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.querySelector('.nav-hamburger').classList.remove('is-open');
+    document.querySelector('.nav-links').classList.remove('is-open');
+  });
+});
 </script>
 </body>
 </html>

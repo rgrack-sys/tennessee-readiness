@@ -915,17 +915,99 @@
     50% { opacity: 1; }
   }
 
+  /* ── HAMBURGER BUTTON ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    z-index: 901;
+  }
+
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--cream);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+  }
+
+  .nav-hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.is-open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
-    nav { padding: 1rem 1.25rem; }
-    .nav-links { gap: 1rem; }
+
+    /* ─ NAV ─ */
+    nav {
+      padding: 0.85rem 1.25rem;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    .nav-hamburger { display: flex; }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      gap: 0;
+      margin-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-top: 1px solid rgba(196,134,90,0.3);
+    }
+    .nav-links.is-open { display: flex; }
+    .nav-links li { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-links a {
+      display: block;
+      padding: 0.75rem 0.25rem;
+      font-size: 1rem;
+    }
+
+    /* ─ HERO ─ */
+    .hero-ctas { flex-direction: column; align-items: stretch; max-width: 300px; margin-left: auto; margin-right: auto; }
+    .btn-primary, .btn-outline { text-align: center; }
+
+    /* ─ ABOUT ─ */
     .about { grid-template-columns: 1fr; }
-    .about-text { padding: 3rem 1.75rem; }
-    .about-images { grid-template-rows: 200px 200px; grid-template-columns: 1fr 1fr; }
+    .about-text { padding: 3rem 1.5rem; }
+    .about-images { grid-template-rows: 180px 180px; grid-template-columns: 1fr 1fr; }
     .img-span { grid-column: span 2; }
-    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-    .form-row { grid-template-columns: 1fr; }
+
+    /* ─ INFO ─ */
+    .info { padding: 4rem 1.25rem; }
+    .info-card-social { grid-column: 1 / -1 !important; }
+
+    /* ─ PORCH ─ */
+    #porch { padding: 3.5rem 1.25rem !important; }
+    .big-chair-grid { grid-template-columns: 1fr !important; }
+    .big-chair-grid > div:last-child { min-height: 280px !important; }
+
+    /* ─ CALENDAR GRID ─ */
+    .cal-cell { min-height: 58px; padding: 0.3rem; }
+    .cal-day-header { font-size: 0.58rem; letter-spacing: 0.05em; padding: 0.4rem 0; }
+    .cal-date { font-size: 0.75rem; }
+    .cal-event { font-size: 0.58rem; padding: 0.12rem 0.25rem; }
+    .calendar-header { flex-direction: column; align-items: flex-start; }
+    .cal-legend { gap: 0.75rem; }
+    .legend-item { font-size: 0.72rem; }
+
+    /* ─ UPCOMING LIST ─ */
     .upcoming-card { grid-template-columns: auto 1fr; }
     .upcoming-tag { display: none; }
-    .calendar-header { flex-direction: column; align-items: flex-start; }
+
+    /* ─ MODAL ─ */
+    .modal-overlay { padding: 0.75rem; }
+    .modal { padding: 1.5rem 1.25rem; }
+
+    /* ─ FOOTER ─ */
+    .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+
+    /* ─ FORMS ─ */
+    .form-row { grid-template-columns: 1fr; }
   }
