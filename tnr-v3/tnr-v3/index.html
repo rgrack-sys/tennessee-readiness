@@ -238,8 +238,8 @@
         ondragleave="this.style.borderColor='rgba(196,134,90,0.4)'"
         ondrop="handleDrop(event)">
         <div style="font-size: 2rem; margin-bottom: 0.75rem;">📷</div>
-        <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay); margin-bottom: 0.4rem;">Add Your Porch Photos</div>
-        <div style="font-family: 'Barlow', sans-serif; font-size: 0.85rem; color: var(--stone);">Click or drag & drop photos here — they'll appear in the gallery above</div>
+        <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay); margin-bottom: 0.4rem;">Share Your Porch Photos</div>
+        <div id="uploadMsg" style="font-family: 'Barlow', sans-serif; font-size: 0.85rem; color: var(--stone);">Click or drag &amp; drop photos here — they'll be reviewed before appearing in the gallery</div>
         <input type="file" id="photoUpload" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(event)">
       </div>
     </div>
@@ -296,13 +296,16 @@
 
 <script>
 // ── PORCH GALLERY ──────────────────────────────────────────────────────────
+const PENDING_KEY  = 'tnr_pending_photos';
+const APPROVED_KEY = 'tnr_approved_photos';
 
 function handlePhotoUpload(event) {
   Array.from(event.target.files).forEach(file => {
     const reader = new FileReader();
-    reader.onload = e => addToGallery(e.target.result, file.name);
+    reader.onload = e => submitToStaging(e.target.result, file.name);
     reader.readAsDataURL(file);
   });
+  event.target.value = '';
 }
 
 function handleBigChairUpload(event) {
@@ -320,33 +323,58 @@ function handleDrop(event) {
     .filter(f => f.type.startsWith('image/'))
     .forEach(file => {
       const reader = new FileReader();
-      reader.onload = e => addToGallery(e.target.result, file.name);
+      reader.onload = e => submitToStaging(e.target.result, file.name);
       reader.readAsDataURL(file);
     });
 }
 
-function addToGallery(src, name) {
-  const grid = document.getElementById('galleryGrid');
-  document.getElementById('placeholderGallery').style.display = 'none';
-  const label = name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
-  const div = document.createElement('div');
-  div.style.cssText = 'position:relative;overflow:hidden;aspect-ratio:4/3;background:#1a0f06;';
-  div.innerHTML = `
-    <img src="${src}" alt="${label}"
-      style="width:100%;height:100%;object-fit:cover;filter:saturate(0.75);transition:transform 0.4s,filter 0.3s;"
-      onmouseover="this.style.transform='scale(1.05)';this.style.filter='saturate(1)'"
-      onmouseout="this.style.transform='scale(1)';this.style.filter='saturate(0.75)'">
-    <div style="position:absolute;bottom:0;left:0;right:0;padding:1rem;
-      background:linear-gradient(transparent,rgba(20,10,2,0.8));
-      font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;
-      letter-spacing:0.15em;text-transform:uppercase;color:var(--fog);">${label}</div>
-    <button onclick="this.parentElement.remove()"
-      style="position:absolute;top:0.4rem;right:0.4rem;background:rgba(20,10,2,0.7);
-      color:var(--fog);border:none;cursor:pointer;padding:0.2rem 0.5rem;
-      font-size:0.7rem;font-family:'Barlow Condensed',sans-serif;">&#x2715;</button>
-  `;
-  grid.appendChild(div);
+// ── STAGING QUEUE ──────────────────────────────────────────────────────────
+function submitToStaging(src, name) {
+  const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+  pending.push({ id: Date.now(), src, name, submitted: new Date().toISOString() });
+  localStorage.setItem(PENDING_KEY, JSON.stringify(pending));
+  showUploadConfirmation();
 }
+
+function showUploadConfirmation() {
+  const zone = document.getElementById('uploadZone');
+  const msg  = document.getElementById('uploadMsg');
+  zone.style.borderColor = '#7ec87e';
+  msg.textContent  = '✓ Photo submitted — thank you! It will appear after review.';
+  msg.style.color  = '#7ec87e';
+  setTimeout(() => {
+    zone.style.borderColor = 'rgba(196,134,90,0.4)';
+    msg.textContent = 'Click or drag & drop photos here — they\'ll be reviewed before appearing in the gallery';
+    msg.style.color = 'var(--stone)';
+  }, 4000);
+}
+
+// ── APPROVED GALLERY ───────────────────────────────────────────────────────
+function renderApprovedGallery() {
+  const approved = JSON.parse(localStorage.getItem(APPROVED_KEY) || '[]');
+  const grid = document.getElementById('galleryGrid');
+  grid.innerHTML = '';
+  if (approved.length === 0) return;
+  document.getElementById('placeholderGallery').style.display = 'none';
+  approved.forEach(photo => {
+    const label = photo.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+    const div = document.createElement('div');
+    div.style.cssText = 'position:relative;overflow:hidden;aspect-ratio:4/3;background:#1a0f06;';
+    div.innerHTML = `
+      <img src="${photo.src}" alt="${label}"
+        style="width:100%;height:100%;object-fit:cover;filter:saturate(0.75);transition:transform 0.4s,filter 0.3s;"
+        onmouseover="this.style.transform='scale(1.05)';this.style.filter='saturate(1)'"
+        onmouseout="this.style.transform='scale(1)';this.style.filter='saturate(0.75)'">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:1rem;
+        background:linear-gradient(transparent,rgba(20,10,2,0.8));
+        font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;
+        letter-spacing:0.15em;text-transform:uppercase;color:var(--fog);">${label}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+
+renderApprovedGallery();
 </script>
 </body>
 </html>

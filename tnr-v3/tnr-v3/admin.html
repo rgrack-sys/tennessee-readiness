@@ -444,6 +444,130 @@
     .class-actions { grid-column: span 2; }
     .form-row { grid-template-columns: 1fr; }
   }
+
+  /* ── TABS ── */
+  .admin-tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 2.5rem;
+    background: rgba(255,255,255,0.04);
+    padding: 4px;
+    width: fit-content;
+  }
+  .tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--stone);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.75rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .tab-btn.active { background: var(--bark); color: var(--cream); }
+  .tab-btn:hover:not(.active) { color: var(--fog); }
+  .tab-badge {
+    display: inline-block;
+    background: var(--ember);
+    color: white;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    padding: 0.1rem 0.45rem;
+    margin-left: 0.4rem;
+    min-width: 18px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .tab-badge:empty { display: none; }
+
+  /* ── PHOTO GRID ── */
+  .staging-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--stone);
+    padding: 1rem 0 0.75rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 3px;
+    margin-bottom: 2.5rem;
+  }
+  .photo-card {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: #1a0f06;
+  }
+  .photo-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-card-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.6rem 0.75rem;
+    background: linear-gradient(transparent, rgba(10,5,2,0.88));
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fog);
+  }
+  .photo-card-date {
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.65rem;
+    color: var(--stone);
+    letter-spacing: 0;
+    text-transform: none;
+    margin-top: 0.2rem;
+  }
+  .photo-card-actions {
+    position: absolute;
+    top: 0.4rem; right: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .btn-approve {
+    background: rgba(46,74,46,0.88);
+    border: 1px solid #7ec87e;
+    color: #7ec87e;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .btn-approve:hover { background: #4A5E3A; color: white; border-color: #7ec87e; }
+  .btn-decline {
+    background: rgba(80,20,20,0.88);
+    border: 1px solid rgba(224,112,112,0.6);
+    color: #e07070;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+  .btn-decline:hover { background: #c0392b; color: white; border-color: #c0392b; }
+  .photo-empty {
+    color: var(--stone);
+    font-size: 0.9rem;
+    font-family: 'Barlow', sans-serif;
+    padding: 2rem 0;
+  }
 </style>
 </head>
 <body>
@@ -474,19 +598,43 @@
 
   <div class="admin-body">
 
-    <div class="admin-header">
-      <div class="admin-title">
-        <small>Class Management</small>
-        Schedule
-      </div>
-      <button class="add-btn" onclick="openAddModal()">＋ Add New Class</button>
+    <!-- ── TABS ── -->
+    <div class="admin-tabs">
+      <button class="tab-btn active" id="tab-btn-classes" onclick="switchTab('classes')">Classes</button>
+      <button class="tab-btn" id="tab-btn-photos" onclick="switchTab('photos')">
+        Photos <span class="tab-badge" id="pendingBadge"></span>
+      </button>
     </div>
 
-    <!-- Stats -->
-    <div class="stats-row" id="statsRow"></div>
+    <!-- ── CLASSES TAB ── -->
+    <div id="tab-classes">
+      <div class="admin-header">
+        <div class="admin-title">
+          <small>Class Management</small>
+          Schedule
+        </div>
+        <button class="add-btn" onclick="openAddModal()">＋ Add New Class</button>
+      </div>
+      <div class="stats-row" id="statsRow"></div>
+      <div id="classList"></div>
+    </div>
 
-    <!-- Class List -->
-    <div id="classList"></div>
+    <!-- ── PHOTOS TAB ── -->
+    <div id="tab-photos" style="display:none;">
+      <div class="admin-header">
+        <div class="admin-title">
+          <small>Porch Gallery</small>
+          Photo Staging
+        </div>
+      </div>
+      <div class="stats-row" id="photoStatsRow"></div>
+
+      <div class="staging-title" style="border-top:none; padding-top:0;">Pending Review <span id="pendingCount" style="color:var(--ember);"></span></div>
+      <div class="photo-grid" id="pendingGrid"></div>
+
+      <div class="staging-title">Approved &amp; Live <span id="approvedCount" style="color:#7ec87e;"></span></div>
+      <div class="photo-grid" id="approvedGrid"></div>
+    </div>
 
   </div>
 </div>
@@ -579,6 +727,7 @@ function showAdmin() {
   document.getElementById('adminScreen').style.display = 'block';
   loadClasses();
   renderAll();
+  updatePendingBadge();
 }
 
 // ── DATA ──
@@ -747,7 +896,119 @@ document.getElementById('classModal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
-// ── INIT ──
+// ── TABS ────────────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  document.getElementById('tab-classes').style.display = tab === 'classes' ? 'block' : 'none';
+  document.getElementById('tab-photos').style.display  = tab === 'photos'  ? 'block' : 'none';
+  document.getElementById('tab-btn-classes').classList.toggle('active', tab === 'classes');
+  document.getElementById('tab-btn-photos').classList.toggle('active',  tab === 'photos');
+  if (tab === 'photos') renderPhotos();
+}
+
+// ── PHOTO STAGING ────────────────────────────────────────────────────────────
+const PENDING_KEY  = 'tnr_pending_photos';
+const APPROVED_KEY = 'tnr_approved_photos';
+
+function loadPhotos() {
+  return {
+    pending:  JSON.parse(localStorage.getItem(PENDING_KEY)  || '[]'),
+    approved: JSON.parse(localStorage.getItem(APPROVED_KEY) || '[]'),
+  };
+}
+
+function savePhotos(pending, approved) {
+  localStorage.setItem(PENDING_KEY,  JSON.stringify(pending));
+  localStorage.setItem(APPROVED_KEY, JSON.stringify(approved));
+}
+
+function updatePendingBadge() {
+  const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+  const badge = document.getElementById('pendingBadge');
+  badge.textContent = pending.length > 0 ? pending.length : '';
+}
+
+function approvePhoto(id) {
+  let { pending, approved } = loadPhotos();
+  const photo = pending.find(p => p.id === id);
+  if (!photo) return;
+  pending  = pending.filter(p => p.id !== id);
+  approved = [...approved, { ...photo, approved: new Date().toISOString() }];
+  savePhotos(pending, approved);
+  renderPhotos();
+  updatePendingBadge();
+}
+
+function declinePhoto(id) {
+  if (!confirm('Decline and remove this photo?')) return;
+  let { pending, approved } = loadPhotos();
+  pending = pending.filter(p => p.id !== id);
+  savePhotos(pending, approved);
+  renderPhotos();
+  updatePendingBadge();
+}
+
+function deleteApprovedPhoto(id) {
+  if (!confirm('Remove this photo from the public gallery?')) return;
+  let { pending, approved } = loadPhotos();
+  approved = approved.filter(p => p.id !== id);
+  savePhotos(pending, approved);
+  renderPhotos();
+}
+
+function renderPhotos() {
+  const { pending, approved } = loadPhotos();
+
+  // Stats
+  document.getElementById('photoStatsRow').innerHTML = `
+    <div class="stat-card"><div class="stat-num" style="color:var(--ember);">${pending.length}</div><div class="stat-label">Pending Review</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#7ec87e;">${approved.length}</div><div class="stat-label">Live in Gallery</div></div>
+  `;
+
+  document.getElementById('pendingCount').textContent = `(${pending.length})`;
+  document.getElementById('approvedCount').textContent = `(${approved.length})`;
+  updatePendingBadge();
+
+  // Pending grid
+  const pendingGrid = document.getElementById('pendingGrid');
+  if (pending.length === 0) {
+    pendingGrid.innerHTML = '<p class="photo-empty">No photos awaiting review.</p>';
+  } else {
+    pendingGrid.innerHTML = pending.map(p => {
+      const label = p.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      const date  = new Date(p.submitted).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+      return `
+        <div class="photo-card">
+          <img src="${p.src}" alt="${label}">
+          <div class="photo-card-label">${label}<div class="photo-card-date">${date}</div></div>
+          <div class="photo-card-actions">
+            <button class="btn-approve" onclick="approvePhoto(${p.id})">✓ Approve</button>
+            <button class="btn-decline" onclick="declinePhoto(${p.id})">✕ Decline</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // Approved grid
+  const approvedGrid = document.getElementById('approvedGrid');
+  if (approved.length === 0) {
+    approvedGrid.innerHTML = '<p class="photo-empty">No approved photos yet.</p>';
+  } else {
+    approvedGrid.innerHTML = approved.map(p => {
+      const label = p.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      const date  = new Date(p.approved).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+      return `
+        <div class="photo-card">
+          <img src="${p.src}" alt="${label}">
+          <div class="photo-card-label">${label}<div class="photo-card-date">Approved ${date}</div></div>
+          <div class="photo-card-actions">
+            <button class="btn-del" onclick="deleteApprovedPhoto(${p.id})">✕ Remove</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   if (sessionStorage.getItem(SESSION_KEY) === 'true') {
     showAdmin();
