@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class Schedule | Tennessee Readiness</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="nav-brand" href="index.html" style="display:flex;align-items:center;gap:0.6rem;">
+    <img src="images/logo.jpg" alt="Tennessee Readiness" style="height:40px;">Tennessee<span>Readiness</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#info">Visit</a></li>
+    <li><a href="calendar.html" style="color:var(--clay);">Classes</a></li>
+    <li><a href="index.html#porch">The Porch</a></li>
+  </ul>
+</nav>
+
+<!-- ── CALENDAR ── -->
+<section id="calendar" style="padding-top:90px;">
+  <div class="calendar-inner">
+    <div class="calendar-header">
+      <div>
+        <div class="section-label" style="color:var(--clay);">Training &amp; Seminars</div>
+        <h2 class="section-title">Class Schedule</h2>
+      </div>
+      <button class="add-class-btn" onclick="openAddModal()">+ Add Class</button>
+    </div>
+
+    <div class="cal-nav">
+      <button class="cal-nav-btn" onclick="changeMonth(-1)">&#8592;</button>
+      <div class="cal-month-label" id="monthLabel"></div>
+      <button class="cal-nav-btn" onclick="changeMonth(1)">&#8594;</button>
+    </div>
+
+    <div class="cal-grid" id="calGrid"></div>
+
+    <div class="cal-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#7ec87e;"></div> Camping</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--clay);"></div> Preparedness</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--sky);"></div> Hiking</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e07070;"></div> First Aid</div>
+    </div>
+
+    <div class="upcoming-section">
+      <div class="upcoming-title">Upcoming Classes</div>
+      <div class="upcoming-list" id="upcomingList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand" style="display:flex;align-items:center;gap:0.75rem;">
+        <img src="images/logo.jpg" alt="Tennessee Readiness" style="height:36px;">Tennessee<span>Readiness</span>
+      </div>
+      <p class="footer-tagline">What are you ready for? We help the Smoky Mountain community answer that question &mdash; with the right gear, the right skills, and the confidence to face whatever comes.</p>
+      <div class="footer-social">
+        <a href="#" title="Facebook"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="#" title="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" title="YouTube"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg></a>
+        <a href="#" title="X / Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About Us</a></li>
+        <li><a href="index.html#info">Visit</a></li>
+        <li><a href="calendar.html">Class Schedule</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>
+        5036 Hooper Hwy<br>
+        Cosby, TN 37722<br><br>
+        <a href="tel:+14232814133" style="color:var(--clay);text-decoration:none;">(423) 281-4133</a><br>
+        <a href="mailto:tnrcsby@gmail.com" style="color:var(--stone);text-decoration:none;font-size:0.85rem;">tnrcsby@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Tennessee Readiness. All rights reserved.</p>
+    <p>Smoky Mountains, Tennessee &nbsp;&middot;&nbsp; <a href="admin.html" style="color:rgba(140,123,107,0.35);text-decoration:none;font-size:0.75rem;">Admin</a></p>
+  </div>
+</footer>
+
+<!-- ── ADD CLASS MODAL ── -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAddModal()">&#x2715;</button>
+    <h2>Add New Class</h2>
+    <div class="form-group">
+      <label>Class Title *</label>
+      <input type="text" id="f-title" placeholder="e.g. Wilderness First Aid Basics">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date *</label>
+        <input type="date" id="f-date">
+      </div>
+      <div class="form-group">
+        <label>Category *</label>
+        <select id="f-cat">
+          <option value="">Select category</option>
+          <option value="camping">Camping</option>
+          <option value="preparedness">Preparedness</option>
+          <option value="hiking">Hiking</option>
+          <option value="first-aid">First Aid</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Start Time</label><input type="time" id="f-start"></div>
+      <div class="form-group"><label>End Time</label><input type="time" id="f-end"></div>
+    </div>
+    <div class="form-group">
+      <label>Instructor</label>
+      <input type="text" id="f-instructor" placeholder="Instructor name">
+    </div>
+    <div class="form-group">
+      <label>Max Capacity</label>
+      <input type="number" id="f-capacity" placeholder="e.g. 20" min="1">
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="f-desc" placeholder="What will participants learn?"></textarea>
+    </div>
+    <button class="form-submit" onclick="saveClass()">Save Class to Calendar</button>
+  </div>
+</div>
+
+<!-- ── EVENT DETAIL MODAL ── -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal detail-modal">
+    <button class="modal-close" onclick="closeDetailModal()">&#x2715;</button>
+    <div class="detail-cat" id="d-cat"></div>
+    <h2 id="d-title"></h2>
+    <div class="detail-meta">
+      <div class="detail-meta-row"><strong>Date</strong><span id="d-date"></span></div>
+      <div class="detail-meta-row"><strong>Time</strong><span id="d-time"></span></div>
+      <div class="detail-meta-row" id="d-inst-row"><strong>Instructor</strong><span id="d-inst"></span></div>
+      <div class="detail-meta-row" id="d-cap-row"><strong>Capacity</strong><span id="d-cap"></span></div>
+    </div>
+    <p class="detail-desc" id="d-desc"></p>
+    <div class="detail-actions">
+      <button class="btn-danger" id="deleteBtn">Delete Class</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+let classes = JSON.parse(localStorage.getItem('tnr_classes') || '[]');
+let currentYear, currentMonth;
+let selectedEventId = null;
+
+const MONTHS = ['January','February','March','April','May','June','July',
+                'August','September','October','November','December'];
+const DAYS   = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+const CAT_LABELS = {
+  camping:      '🏕️ Camping',
+  preparedness: '🛡️ Preparedness',
+  hiking:       '🥾 Hiking',
+  'first-aid':  '🩹 First Aid'
+};
+
+function save() { localStorage.setItem('tnr_classes', JSON.stringify(classes)); }
+
+// ── INIT ────────────────────────────────────────────────────────────────────
+function init() {
+  const now = new Date();
+  currentYear  = now.getFullYear();
+  currentMonth = now.getMonth();
+
+  if (classes.length === 0) {
+    const y = currentYear, m = String(currentMonth + 1).padStart(2, '0');
+    classes = [
+      { id: 1, title: 'Wilderness First Aid Basics', date: `${y}-${m}-08`, cat: 'first-aid',    start: '09:00', end: '13:00', instructor: 'John Harmon', capacity: 16, desc: 'Learn essential first aid skills for backcountry emergencies — wound care, improvised splints, and patient transport.' },
+      { id: 2, title: 'Bug Out Bag Build Workshop',  date: `${y}-${m}-15`, cat: 'preparedness', start: '10:00', end: '12:00', instructor: 'Sarah Mills', capacity: 20, desc: 'Build a complete 72-hour emergency kit from scratch. Each participant assembles their own go-bag to take home.' },
+      { id: 3, title: 'Smoky Mountain Trail Skills', date: `${y}-${m}-22`, cat: 'hiking',       start: '08:00', end: '14:00', instructor: 'Mike Dalton', capacity: 12, desc: 'Navigation, pace, and terrain reading on the Great Smoky Mountain trails. Suitable for intermediate hikers.' },
+      { id: 4, title: 'Family Camping Weekend Prep', date: `${y}-${m}-29`, cat: 'camping',      start: '11:00', end: '14:00', instructor: 'Lisa Chen',   capacity: 25, desc: 'Everything you need to plan a successful family camping trip — packing lists, safety, campfire cooking basics.' },
+    ];
+    save();
+  }
+  renderCalendar();
+  renderUpcoming();
+}
+
+// ── CALENDAR ────────────────────────────────────────────────────────────────
+function changeMonth(dir) {
+  currentMonth += dir;
+  if (currentMonth < 0)  { currentMonth = 11; currentYear--; }
+  if (currentMonth > 11) { currentMonth = 0;  currentYear++; }
+  renderCalendar();
+  renderUpcoming();
+}
+
+function renderCalendar() {
+  document.getElementById('monthLabel').textContent = `${MONTHS[currentMonth]} ${currentYear}`;
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+
+  DAYS.forEach(d => {
+    const h = document.createElement('div');
+    h.className = 'cal-day-header';
+    h.textContent = d;
+    grid.appendChild(h);
+  });
+
+  const firstDay    = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const today       = new Date();
+  const prevDays    = new Date(currentYear, currentMonth, 0).getDate();
+
+  for (let i = firstDay - 1; i >= 0; i--)
+    grid.appendChild(makeCell(prevDays - i, true, null));
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = today.getFullYear()===currentYear && today.getMonth()===currentMonth && today.getDate()===d;
+    grid.appendChild(makeCell(d, false, dateStr, isToday, classes.filter(c => c.date === dateStr)));
+  }
+
+  const totalCells = firstDay + daysInMonth;
+  const remaining  = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+  for (let d = 1; d <= remaining; d++)
+    grid.appendChild(makeCell(d, true, null));
+}
+
+function makeCell(day, otherMonth, dateStr, isToday, events) {
+  const cell = document.createElement('div');
+  cell.className = 'cal-cell' + (otherMonth ? ' other-month' : '') + (isToday ? ' today' : '');
+  const dateDiv = document.createElement('div');
+  dateDiv.className = 'cal-date';
+  dateDiv.textContent = day;
+  cell.appendChild(dateDiv);
+  if (events) {
+    events.forEach(ev => {
+      const evDiv = document.createElement('div');
+      evDiv.className = `cal-event cat-${ev.cat}`;
+      evDiv.textContent = ev.title;
+      evDiv.onclick = e => { e.stopPropagation(); openDetail(ev.id); };
+      cell.appendChild(evDiv);
+    });
+    if (!otherMonth) cell.onclick = () => openAddModal(dateStr);
+  }
+  return cell;
+}
+
+// ── UPCOMING ────────────────────────────────────────────────────────────────
+function renderUpcoming() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const upcoming = classes
+    .filter(c => new Date(c.date + 'T00:00:00') >= today)
+    .sort((a,b) => a.date.localeCompare(b.date))
+    .slice(0, 5);
+
+  const list = document.getElementById('upcomingList');
+  if (upcoming.length === 0) {
+    list.innerHTML = '<p style="color:var(--stone);font-size:0.9rem;">No upcoming classes scheduled. Click \"+ Add Class\" to get started.</p>';
+    return;
+  }
+  list.innerHTML = upcoming.map(ev => {
+    const d      = new Date(ev.date + 'T00:00:00');
+    const dayNum = d.getDate();
+    const mon    = MONTHS[d.getMonth()].slice(0,3).toUpperCase();
+    const timeStr = ev.start ? formatTime(ev.start) + (ev.end ? ' – ' + formatTime(ev.end) : '') : 'Time TBD';
+    return `
+      <div class="upcoming-card" onclick="openDetail(${ev.id})">
+        <div class="upcoming-date"><div class="day">${dayNum}</div><div class="month">${mon}</div></div>
+        <div class="upcoming-info">
+          <h3>${ev.title}</h3>
+          <p>${timeStr}${ev.instructor ? ' · ' + ev.instructor : ''}</p>
+        </div>
+        <span class="upcoming-tag tag-${ev.cat}">${CAT_LABELS[ev.cat] || ev.cat}</span>
+      </div>`;
+  }).join('');
+}
+
+function formatTime(t) {
+  const [h, m] = t.split(':').map(Number);
+  return `${h % 12 || 12}:${String(m).padStart(2,'0')} ${h >= 12 ? 'PM' : 'AM'}`;
+}
+
+// ── ADD MODAL ───────────────────────────────────────────────────────────────
+function openAddModal(date) {
+  if (date) document.getElementById('f-date').value = date;
+  document.getElementById('addModal').classList.add('active');
+}
+function closeAddModal() {
+  document.getElementById('addModal').classList.remove('active');
+  ['f-title','f-date','f-cat','f-start','f-end','f-instructor','f-capacity','f-desc']
+    .forEach(id => { document.getElementById(id).value = ''; });
+}
+function saveClass() {
+  const title = document.getElementById('f-title').value.trim();
+  const date  = document.getElementById('f-date').value;
+  const cat   = document.getElementById('f-cat').value;
+  if (!title || !date || !cat) { alert('Please fill in Title, Date, and Category.'); return; }
+  classes.push({
+    id: Date.now(), title, date, cat,
+    start:      document.getElementById('f-start').value,
+    end:        document.getElementById('f-end').value,
+    instructor: document.getElementById('f-instructor').value.trim(),
+    capacity:   document.getElementById('f-capacity').value,
+    desc:       document.getElementById('f-desc').value.trim(),
+  });
+  save(); closeAddModal(); renderCalendar(); renderUpcoming();
+}
+
+// ── DETAIL MODAL ────────────────────────────────────────────────────────────
+function openDetail(id) {
+  const ev = classes.find(c => c.id === id);
+  if (!ev) return;
+  selectedEventId = id;
+  document.getElementById('d-cat').textContent   = CAT_LABELS[ev.cat] || ev.cat;
+  document.getElementById('d-title').textContent = ev.title;
+  const d = new Date(ev.date + 'T00:00:00');
+  document.getElementById('d-date').textContent  = d.toLocaleDateString('en-US',
+    { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('d-time').textContent  =
+    ev.start ? formatTime(ev.start) + (ev.end ? ' – ' + formatTime(ev.end) : '') : 'TBD';
+  const instRow = document.getElementById('d-inst-row');
+  if (ev.instructor) { document.getElementById('d-inst').textContent = ev.instructor; instRow.style.display='flex'; }
+  else { instRow.style.display = 'none'; }
+  const capRow = document.getElementById('d-cap-row');
+  if (ev.capacity) { document.getElementById('d-cap').textContent = ev.capacity + ' participants max'; capRow.style.display='flex'; }
+  else { capRow.style.display = 'none'; }
+  document.getElementById('d-desc').textContent = ev.desc || '';
+  document.getElementById('detailModal').classList.add('active');
+  document.getElementById('deleteBtn').onclick = () => deleteClass(selectedEventId);
+}
+function closeDetailModal() {
+  document.getElementById('detailModal').classList.remove('active');
+  selectedEventId = null;
+}
+function deleteClass(id) {
+  if (!confirm('Delete this class?')) return;
+  classes = classes.filter(c => c.id !== id);
+  save(); closeDetailModal(); renderCalendar(); renderUpcoming();
+}
+
+init();
+</script>
+</body>
+</html>
