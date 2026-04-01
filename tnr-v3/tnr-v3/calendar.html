@@ -184,16 +184,7 @@ function init() {
   currentYear  = now.getFullYear();
   currentMonth = now.getMonth();
 
-  if (classes.length === 0) {
-    const y = currentYear, m = String(currentMonth + 1).padStart(2, '0');
-    classes = [
-      { id: 1, title: 'Wilderness First Aid Basics', date: `${y}-${m}-08`, cat: 'first-aid',    start: '09:00', end: '13:00', instructor: 'John Harmon', capacity: 16, desc: 'Learn essential first aid skills for backcountry emergencies — wound care, improvised splints, and patient transport.' },
-      { id: 2, title: 'Bug Out Bag Build Workshop',  date: `${y}-${m}-15`, cat: 'preparedness', start: '10:00', end: '12:00', instructor: 'Sarah Mills', capacity: 20, desc: 'Build a complete 72-hour emergency kit from scratch. Each participant assembles their own go-bag to take home.' },
-      { id: 3, title: 'Smoky Mountain Trail Skills', date: `${y}-${m}-22`, cat: 'hiking',       start: '08:00', end: '14:00', instructor: 'Mike Dalton', capacity: 12, desc: 'Navigation, pace, and terrain reading on the Great Smoky Mountain trails. Suitable for intermediate hikers.' },
-      { id: 4, title: 'Family Camping Weekend Prep', date: `${y}-${m}-29`, cat: 'camping',      start: '11:00', end: '14:00', instructor: 'Lisa Chen',   capacity: 25, desc: 'Everything you need to plan a successful family camping trip — packing lists, safety, campfire cooking basics.' },
-    ];
-    save();
-  }
+
   renderCalendar();
   renderUpcoming();
 }
