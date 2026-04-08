@@ -529,6 +529,7 @@
   .cal-event.cat-arts-crafts { border-left-color: #e91e8c; background: rgba(233,30,140,0.2); }
   .cal-event.cat-nutrition { border-left-color: #27ae60; background: rgba(39,174,96,0.25); }
   .cal-event.cat-cooking { border-left-color: #e67e22; background: rgba(230,126,34,0.25); }
+  .cal-event.cat-bible-study { border-left-color: #5b8dd9; background: rgba(91,141,217,0.25); }
 
   /* Legend */
   .cal-legend {
@@ -637,6 +638,7 @@
   .tag-arts-crafts { color: #f06cbe; border-color: #f06cbe; }
   .tag-nutrition { color: #5ecb88; border-color: #5ecb88; }
   .tag-cooking { color: #f0a060; border-color: #f0a060; }
+  .tag-bible-study { color: #5b8dd9; border-color: #5b8dd9; }
 
   /* ── MODAL ── */
   .modal-overlay {
