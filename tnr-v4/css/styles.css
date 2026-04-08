@@ -531,6 +531,7 @@
   .cal-event.cat-cooking { border-left-color: #e67e22; background: rgba(230,126,34,0.25); }
   .cal-event.cat-bible-study { border-left-color: #5b8dd9; background: rgba(91,141,217,0.25); }
   .cal-event.cat-private { border-left-color: #7f8c8d; background: rgba(127,140,141,0.25); }
+  .cal-event.cat-joke { border-left-color: #f1c40f; background: rgba(241,196,15,0.2); }
 
   /* Legend */
   .cal-legend {
@@ -641,6 +642,7 @@
   .tag-cooking { color: #f0a060; border-color: #f0a060; }
   .tag-bible-study { color: #5b8dd9; border-color: #5b8dd9; }
   .tag-private { color: #95a5a6; border-color: #95a5a6; }
+  .tag-joke { color: #f1c40f; border-color: #f1c40f; }
 
   /* ── MODAL ── */
   .modal-overlay {
