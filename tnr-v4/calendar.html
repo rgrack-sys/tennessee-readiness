@@ -124,7 +124,7 @@
 
 <script>
 // ── STATE ──────────────────────────────────────────────────────────────────
-let classes = JSON.parse(localStorage.getItem('tnr_classes') || '[]');
+let classes = [];
 let currentYear, currentMonth;
 
 const MONTHS = ['January','February','March','April','May','June','July',
@@ -146,11 +146,13 @@ const CAT_LABELS = {
 };
 
 // ── INIT ────────────────────────────────────────────────────────────────────
-function init() {
+async function init() {
   const now = new Date();
   currentYear  = now.getFullYear();
   currentMonth = now.getMonth();
 
+  const res = await fetch('/api/classes');
+  classes = await res.json();
 
   renderCalendar();
   renderUpcoming();

@@ -701,8 +701,6 @@
 </div>
 
 <script>
-const ADMIN_PASSWORD = '5036Internets!';
-const GALLERY_KEY = 'tnr_classes';
 const SESSION_KEY = 'tnr_admin_session';
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const CAT_LABELS = { camping: '🏕️ Camping', preparedness: '🛡️ Preparedness', hiking: '🥾 Hiking', 'first-aid': '🩹 First Aid', 'self-defense': '🥋 Self Defense', homeschool: '📚 Home School', 'arts-crafts': '🎨 Arts & Crafts', nutrition: '🥗 Nutrition', cooking: '🍳 Cooking', 'bible-study': '✝️ Bible Study', private: '🔒 Private Function' };
@@ -711,10 +709,13 @@ let classes = [];
 let editingId = null;
 
 // ── AUTH ──
-function attemptLogin() {
+async function attemptLogin() {
   const val = document.getElementById('passwordInput').value;
-  if (val === ADMIN_PASSWORD) {
-    sessionStorage.setItem(SESSION_KEY, 'true');
+  const res = await fetch('/api/auth', {
+    headers: { 'Authorization': `Bearer ${val}` }
+  });
+  if (res.ok) {
+    sessionStorage.setItem(SESSION_KEY, val);
     showAdmin();
   } else {
     document.getElementById('loginError').style.display = 'block';
@@ -730,21 +731,30 @@ function logout() {
   document.getElementById('passwordInput').value = '';
 }
 
-function showAdmin() {
+async function showAdmin() {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('adminScreen').style.display = 'block';
-  loadClasses();
+  await loadClasses();
   renderAll();
   updatePendingBadge();
 }
 
 // ── DATA ──
-function loadClasses() {
-  classes = JSON.parse(localStorage.getItem(GALLERY_KEY) || '[]');
+async function loadClasses() {
+  const res = await fetch('/api/classes');
+  classes = await res.json();
 }
 
-function saveClasses() {
-  localStorage.setItem(GALLERY_KEY, JSON.stringify(classes));
+async function saveClasses() {
+  const pw = sessionStorage.getItem(SESSION_KEY);
+  await fetch('/api/classes', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${pw}`
+    },
+    body: JSON.stringify(classes)
+  });
 }
 
 // ── RENDER ──
@@ -862,7 +872,7 @@ function clearForm() {
   });
 }
 
-function saveClass() {
+async function saveClass() {
   const title = document.getElementById('f-title').value.trim();
   const date = document.getElementById('f-date').value;
   const cat = document.getElementById('f-cat').value;
@@ -885,17 +895,17 @@ function saveClass() {
     classes.push(data);
   }
 
-  saveClasses();
+  await saveClasses();
   closeModal();
   renderAll();
 }
 
-function deleteClass(id) {
+async function deleteClass(id) {
   const ev = classes.find(c => c.id === id);
   if (!ev) return;
   if (!confirm(`Delete "${ev.title}"? This cannot be undone.`)) return;
   classes = classes.filter(c => c.id !== id);
-  saveClasses();
+  await saveClasses();
   renderAll();
 }
 
@@ -1018,7 +1028,7 @@ function renderPhotos() {
 
 // ── INIT ────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+  if (sessionStorage.getItem(SESSION_KEY)) {
     showAdmin();
   }
   document.getElementById('passwordInput').focus();
