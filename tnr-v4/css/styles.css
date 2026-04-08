@@ -524,6 +524,11 @@
   .cal-event.cat-hiking { border-left-color: var(--sky); background: rgba(107,142,168,0.25); }
   .cal-event.cat-camping { border-left-color: var(--moss); background: rgba(74,94,58,0.4); }
   .cal-event.cat-first-aid { border-left-color: #c0392b; background: rgba(192,57,43,0.25); }
+  .cal-event.cat-self-defense { border-left-color: #8e44ad; background: rgba(142,68,173,0.25); }
+  .cal-event.cat-homeschool { border-left-color: #2980b9; background: rgba(41,128,185,0.25); }
+  .cal-event.cat-arts-crafts { border-left-color: #e91e8c; background: rgba(233,30,140,0.2); }
+  .cal-event.cat-nutrition { border-left-color: #27ae60; background: rgba(39,174,96,0.25); }
+  .cal-event.cat-cooking { border-left-color: #e67e22; background: rgba(230,126,34,0.25); }
 
   /* Legend */
   .cal-legend {
@@ -627,6 +632,11 @@
   .tag-preparedness { color: var(--clay); border-color: var(--clay); }
   .tag-hiking { color: var(--sky); border-color: var(--sky); }
   .tag-first-aid { color: #e07070; border-color: #e07070; }
+  .tag-self-defense { color: #b57bee; border-color: #b57bee; }
+  .tag-homeschool { color: #5aabe8; border-color: #5aabe8; }
+  .tag-arts-crafts { color: #f06cbe; border-color: #f06cbe; }
+  .tag-nutrition { color: #5ecb88; border-color: #5ecb88; }
+  .tag-cooking { color: #f0a060; border-color: #f0a060; }
 
   /* ── MODAL ── */
   .modal-overlay {
