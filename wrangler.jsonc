@@ -2,13 +2,21 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "tennessee-readiness",
   "compatibility_date": "2025-09-27",
+  "main": "src/index.js",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "tnr-v4"
+    "directory": "tnr-v4",
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "TNR_CLASSES",
+      "id": "65321817b3174627b19c84ce470bb753"
+    }
   ]
 }
