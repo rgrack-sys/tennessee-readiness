@@ -569,6 +569,35 @@
     font-family: 'Barlow', sans-serif;
     padding: 2rem 0;
   }
+
+  .photo-approve-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .caption-input {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    padding: 0.5rem 0.75rem;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.85rem;
+    color: var(--cream);
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s;
+  }
+  .caption-input::placeholder { color: var(--stone); }
+  .caption-input:focus { border-color: var(--clay); }
+
+  .photo-approve-actions {
+    display: flex;
+    gap: 0.3rem;
+  }
+  .photo-approve-actions .btn-approve,
+  .photo-approve-actions .btn-decline {
+    flex: 1;
+  }
 </style>
 </head>
 <body>
@@ -938,7 +967,7 @@ async function loadPhotos() {
   return { pending: [], approved: [] };
 }
 
-async function photoApiCall(path, id) {
+async function photoApiCall(path, id, caption) {
   const pw = sessionStorage.getItem(SESSION_KEY);
   return await fetch(path, {
     method: 'POST',
@@ -946,7 +975,7 @@ async function photoApiCall(path, id) {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${pw}`
     },
-    body: JSON.stringify({ id })
+    body: JSON.stringify(caption !== undefined ? { id, caption } : { id })
   });
 }
 
@@ -957,7 +986,9 @@ async function updatePendingBadge() {
 }
 
 async function approvePhoto(id) {
-  await photoApiCall('/api/photos/approve', id);
+  const captionInput = document.getElementById(`caption-${id}`);
+  const caption = captionInput ? captionInput.value.trim() : '';
+  await photoApiCall('/api/photos/approve', id, caption);
   renderPhotos();
 }
 
@@ -995,10 +1026,13 @@ async function renderPhotos() {
       const label = p.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
       const date  = new Date(p.submitted).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
       return `
-        <div class="photo-card">
-          <img src="/photos/${encodeURIComponent(p.key)}" alt="${label}">
-          <div class="photo-card-label">${label}<div class="photo-card-date">${date}</div></div>
-          <div class="photo-card-actions">
+        <div class="photo-approve-item">
+          <div class="photo-card">
+            <img src="/photos/${encodeURIComponent(p.key)}" alt="${label}">
+            <div class="photo-card-label">${label}<div class="photo-card-date">${date}</div></div>
+          </div>
+          <input type="text" class="caption-input" id="caption-${p.id}" placeholder="Add caption (optional)…" maxlength="80">
+          <div class="photo-approve-actions">
             <button class="btn-approve" onclick="approvePhoto(${p.id})">✓ Approve</button>
             <button class="btn-decline" onclick="declinePhoto(${p.id})">✕ Decline</button>
           </div>

@@ -99,7 +99,7 @@ async function handleAPI(request, env, url) {
     const photo = data.pending.find(p => p.id === body.id);
     if (!photo) return new Response('Not Found', { status: 404 });
     data.pending = data.pending.filter(p => p.id !== body.id);
-    data.approved.push({ ...photo, approved: new Date().toISOString() });
+    data.approved.push({ ...photo, approved: new Date().toISOString(), caption: body.caption || '' });
     await savePhotos(env, data);
     return new Response('OK');
   }
