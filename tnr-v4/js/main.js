@@ -2,7 +2,7 @@
 
 async function loadGalleryPhotos() {
   try {
-    const res = await fetch('/api/photos/approved');
+    const res = await fetch('/api/photos/approved', { cache: 'no-store' });
     if (!res.ok) return;
     const { approved } = await res.json();
     if (approved && approved.length > 0) {
@@ -12,6 +12,12 @@ async function loadGalleryPhotos() {
       });
     }
   } catch {}
+}
+
+async function reloadGallery() {
+  const grid = document.getElementById('galleryGrid');
+  if (grid) grid.innerHTML = '';
+  await loadGalleryPhotos();
 }
 
 function renderGalleryPhoto(src, label) {
@@ -59,6 +65,7 @@ async function uploadPhoto(file) {
     const res = await fetch('/api/photos/upload', { method: 'POST', body: formData });
     if (res.ok) {
       msg.textContent = 'Photo submitted! It will appear in the gallery after review.';
+      await reloadGallery();
     } else if (res.status === 413) {
       msg.textContent = 'File too large (25MB max). Please try a smaller photo.';
     } else {

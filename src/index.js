@@ -16,7 +16,7 @@ function isAuthorized(request, env) {
   return auth === `Bearer ${env.ADMIN_PASSWORD}`;
 }
 
-const JSON_HEADERS = { 'Content-Type': 'application/json' };
+const JSON_HEADERS = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' };
 
 async function handleAPI(request, env, url) {
   // ── AUTH CHECK ──
