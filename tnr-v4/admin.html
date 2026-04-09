@@ -598,6 +598,40 @@
   .photo-approve-actions .btn-decline {
     flex: 1;
   }
+
+  .btn-archive {
+    background: transparent;
+    border: 1px solid rgba(196,134,90,0.5);
+    color: var(--clay);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    width: 100%;
+    margin-bottom: 0.4rem;
+  }
+  .btn-archive:hover { background: rgba(196,134,90,0.15); }
+
+  .btn-del-forever {
+    background: transparent;
+    border: 1px solid rgba(192,57,43,0.4);
+    color: #e07070;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    width: 100%;
+  }
+  .btn-del-forever:hover { background: #c0392b; color: white; border-color: #c0392b; }
+
+  .delete-modal-body { display: flex; flex-direction: column; gap: 0; margin-top: 1.5rem; }
+  .delete-modal-body p { font-family: 'Barlow', sans-serif; font-size: 0.9rem; color: var(--stone); margin-bottom: 1.5rem; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -664,6 +698,9 @@
 
       <div class="staging-title">Approved &amp; Live <span id="approvedCount" style="color:#7ec87e;"></span></div>
       <div class="photo-grid" id="approvedGrid"></div>
+
+      <div class="staging-title">Archived <span id="archivedCount" style="color:var(--stone);"></span></div>
+      <div class="photo-grid" id="archivedGrid"></div>
     </div>
 
   </div>
@@ -728,6 +765,19 @@
       <textarea id="f-desc" placeholder="What will participants learn?"></textarea>
     </div>
     <button class="form-submit" onclick="saveClass()">Save Class</button>
+  </div>
+</div>
+
+<!-- ── DELETE CONFIRMATION MODAL ── -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeDeleteModal()">✕</button>
+    <h2>Delete Photo</h2>
+    <div class="delete-modal-body">
+      <p>Choose how to handle this photo:</p>
+      <button class="btn-archive" onclick="archiveApprovedPhoto()">📦 Archive — hide from gallery, keep file in storage</button>
+      <button class="btn-del-forever" onclick="deleteApprovedForever()">🗑 Remove Forever — delete from storage permanently</button>
+    </div>
   </div>
 </div>
 
@@ -964,7 +1014,7 @@ async function loadPhotos() {
     });
     if (res.ok) return await res.json();
   } catch {}
-  return { pending: [], approved: [] };
+  return { pending: [], approved: [], archived: [] };
 }
 
 async function photoApiCall(path, id, caption) {
@@ -998,23 +1048,56 @@ async function declinePhoto(id) {
   renderPhotos();
 }
 
-async function deleteApprovedPhoto(id) {
-  if (!confirm('Remove this photo from the public gallery?')) return;
+let pendingDeleteId = null;
+
+function openDeleteModal(id) {
+  pendingDeleteId = id;
+  document.getElementById('deleteModal').classList.add('active');
+}
+
+function closeDeleteModal() {
+  pendingDeleteId = null;
+  document.getElementById('deleteModal').classList.remove('active');
+}
+
+async function archiveApprovedPhoto() {
+  if (!pendingDeleteId) return;
+  await photoApiCall('/api/photos/archive', pendingDeleteId);
+  closeDeleteModal();
+  renderPhotos();
+}
+
+async function deleteApprovedForever() {
+  if (!pendingDeleteId) return;
+  await photoApiCall('/api/photos/delete', pendingDeleteId);
+  closeDeleteModal();
+  renderPhotos();
+}
+
+async function restoreArchivedPhoto(id) {
+  await photoApiCall('/api/photos/restore', id);
+  renderPhotos();
+}
+
+async function removeArchivedForever(id) {
+  if (!confirm('Permanently delete this photo from storage? This cannot be undone.')) return;
   await photoApiCall('/api/photos/delete', id);
   renderPhotos();
 }
 
 async function renderPhotos() {
-  const { pending, approved } = await loadPhotos();
+  const { pending, approved, archived } = await loadPhotos();
 
   // Stats
   document.getElementById('photoStatsRow').innerHTML = `
     <div class="stat-card"><div class="stat-num" style="color:var(--ember);">${pending.length}</div><div class="stat-label">Pending Review</div></div>
     <div class="stat-card"><div class="stat-num" style="color:#7ec87e;">${approved.length}</div><div class="stat-label">Live in Gallery</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--stone);">${archived.length}</div><div class="stat-label">Archived</div></div>
   `;
 
   document.getElementById('pendingCount').textContent = `(${pending.length})`;
   document.getElementById('approvedCount').textContent = `(${approved.length})`;
+  document.getElementById('archivedCount').textContent = archived.length > 0 ? `(${archived.length})` : '';
   updatePendingBadge();
 
   // Pending grid
@@ -1046,19 +1129,46 @@ async function renderPhotos() {
     approvedGrid.innerHTML = '<p class="photo-empty">No approved photos yet.</p>';
   } else {
     approvedGrid.innerHTML = approved.map(p => {
-      const label = p.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      const label = p.caption || p.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
       const date  = new Date(p.approved).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
       return `
         <div class="photo-card">
           <img src="/photos/${encodeURIComponent(p.key)}" alt="${label}">
           <div class="photo-card-label">${label}<div class="photo-card-date">Approved ${date}</div></div>
           <div class="photo-card-actions">
-            <button class="btn-del" onclick="deleteApprovedPhoto(${p.id})">✕ Remove</button>
+            <button class="btn-del" onclick="openDeleteModal(${p.id})">✕ Delete</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // Archived grid
+  const archivedGrid = document.getElementById('archivedGrid');
+  if (archived.length === 0) {
+    archivedGrid.innerHTML = '<p class="photo-empty">No archived photos.</p>';
+  } else {
+    archivedGrid.innerHTML = archived.map(p => {
+      const label = p.caption || p.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+      const date  = new Date(p.archivedAt).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+      return `
+        <div class="photo-approve-item">
+          <div class="photo-card" style="opacity:0.6;">
+            <img src="/photos/${encodeURIComponent(p.key)}" alt="${label}">
+            <div class="photo-card-label">${label}<div class="photo-card-date">Archived ${date}</div></div>
+          </div>
+          <div class="photo-approve-actions">
+            <button class="btn-approve" onclick="restoreArchivedPhoto(${p.id})">↩ Restore</button>
+            <button class="btn-decline" onclick="removeArchivedForever(${p.id})">🗑 Delete</button>
           </div>
         </div>`;
     }).join('');
   }
 }
+
+// Close delete modal on overlay click
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDeleteModal();
+});
 
 // ── INIT ────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {

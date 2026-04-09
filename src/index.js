@@ -118,7 +118,7 @@ async function handleAPI(request, env, url) {
     return new Response('OK');
   }
 
-  if (url.pathname === '/api/photos/delete' && request.method === 'POST') {
+  if (url.pathname === '/api/photos/archive' && request.method === 'POST') {
     if (!isAuthorized(request, env)) {
       return new Response('Unauthorized', { status: 401 });
     }
@@ -127,6 +127,36 @@ async function handleAPI(request, env, url) {
     const photo = data.approved.find(p => p.id === body.id);
     if (!photo) return new Response('Not Found', { status: 404 });
     data.approved = data.approved.filter(p => p.id !== body.id);
+    data.archived.push({ ...photo, archivedAt: new Date().toISOString() });
+    await savePhotos(env, data);
+    return new Response('OK');
+  }
+
+  if (url.pathname === '/api/photos/restore' && request.method === 'POST') {
+    if (!isAuthorized(request, env)) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+    const body = await request.json();
+    const data = await loadPhotos(env);
+    const photo = data.archived.find(p => p.id === body.id);
+    if (!photo) return new Response('Not Found', { status: 404 });
+    data.archived = data.archived.filter(p => p.id !== body.id);
+    data.approved.push({ ...photo, approved: photo.approved || new Date().toISOString() });
+    await savePhotos(env, data);
+    return new Response('OK');
+  }
+
+  if (url.pathname === '/api/photos/delete' && request.method === 'POST') {
+    if (!isAuthorized(request, env)) {
+      return new Response('Unauthorized', { status: 401 });
+    }
+    const body = await request.json();
+    const data = await loadPhotos(env);
+    const photo = data.approved.find(p => p.id === body.id)
+                || data.archived.find(p => p.id === body.id);
+    if (!photo) return new Response('Not Found', { status: 404 });
+    data.approved = data.approved.filter(p => p.id !== body.id);
+    data.archived = data.archived.filter(p => p.id !== body.id);
     await savePhotos(env, data);
     try { await env.PHOTOS.delete(photo.key); } catch {}
     return new Response('OK');
@@ -151,15 +181,16 @@ async function servePhoto(request, env, url) {
 
 async function loadPhotos(env) {
   const data = await env.TNR_CLASSES.get('photos');
-  if (!data) return { pending: [], approved: [] };
+  if (!data) return { pending: [], approved: [], archived: [] };
   try {
     const parsed = JSON.parse(data);
     return {
       pending: parsed.pending || [],
-      approved: parsed.approved || []
+      approved: parsed.approved || [],
+      archived: parsed.archived || []
     };
   } catch {
-    return { pending: [], approved: [] };
+    return { pending: [], approved: [], archived: [] };
   }
 }
 
