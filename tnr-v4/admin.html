@@ -926,57 +926,55 @@ function switchTab(tab) {
 }
 
 // ── PHOTO STAGING ────────────────────────────────────────────────────────────
-const PENDING_KEY  = 'tnr_pending_photos';
-const APPROVED_KEY = 'tnr_approved_photos';
 
-function loadPhotos() {
-  return {
-    pending:  JSON.parse(localStorage.getItem(PENDING_KEY)  || '[]'),
-    approved: JSON.parse(localStorage.getItem(APPROVED_KEY) || '[]'),
-  };
+async function loadPhotos() {
+  const pw = sessionStorage.getItem(SESSION_KEY);
+  try {
+    const res = await fetch('/api/photos/all', {
+      headers: { 'Authorization': `Bearer ${pw}` }
+    });
+    if (res.ok) return await res.json();
+  } catch {}
+  return { pending: [], approved: [] };
 }
 
-function savePhotos(pending, approved) {
-  localStorage.setItem(PENDING_KEY,  JSON.stringify(pending));
-  localStorage.setItem(APPROVED_KEY, JSON.stringify(approved));
+async function photoApiCall(path, id) {
+  const pw = sessionStorage.getItem(SESSION_KEY);
+  return await fetch(path, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${pw}`
+    },
+    body: JSON.stringify({ id })
+  });
 }
 
-function updatePendingBadge() {
-  const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+async function updatePendingBadge() {
+  const { pending } = await loadPhotos();
   const badge = document.getElementById('pendingBadge');
   badge.textContent = pending.length > 0 ? pending.length : '';
 }
 
-function approvePhoto(id) {
-  let { pending, approved } = loadPhotos();
-  const photo = pending.find(p => p.id === id);
-  if (!photo) return;
-  pending  = pending.filter(p => p.id !== id);
-  approved = [...approved, { ...photo, approved: new Date().toISOString() }];
-  savePhotos(pending, approved);
+async function approvePhoto(id) {
+  await photoApiCall('/api/photos/approve', id);
   renderPhotos();
-  updatePendingBadge();
 }
 
-function declinePhoto(id) {
+async function declinePhoto(id) {
   if (!confirm('Decline and remove this photo?')) return;
-  let { pending, approved } = loadPhotos();
-  pending = pending.filter(p => p.id !== id);
-  savePhotos(pending, approved);
+  await photoApiCall('/api/photos/decline', id);
   renderPhotos();
-  updatePendingBadge();
 }
 
-function deleteApprovedPhoto(id) {
+async function deleteApprovedPhoto(id) {
   if (!confirm('Remove this photo from the public gallery?')) return;
-  let { pending, approved } = loadPhotos();
-  approved = approved.filter(p => p.id !== id);
-  savePhotos(pending, approved);
+  await photoApiCall('/api/photos/delete', id);
   renderPhotos();
 }
 
-function renderPhotos() {
-  const { pending, approved } = loadPhotos();
+async function renderPhotos() {
+  const { pending, approved } = await loadPhotos();
 
   // Stats
   document.getElementById('photoStatsRow').innerHTML = `
@@ -998,7 +996,7 @@ function renderPhotos() {
       const date  = new Date(p.submitted).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
       return `
         <div class="photo-card">
-          <img src="${p.src}" alt="${label}">
+          <img src="/photos/${encodeURIComponent(p.key)}" alt="${label}">
           <div class="photo-card-label">${label}<div class="photo-card-date">${date}</div></div>
           <div class="photo-card-actions">
             <button class="btn-approve" onclick="approvePhoto(${p.id})">✓ Approve</button>
@@ -1018,7 +1016,7 @@ function renderPhotos() {
       const date  = new Date(p.approved).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
       return `
         <div class="photo-card">
-          <img src="${p.src}" alt="${label}">
+          <img src="/photos/${encodeURIComponent(p.key)}" alt="${label}">
           <div class="photo-card-label">${label}<div class="photo-card-date">Approved ${date}</div></div>
           <div class="photo-card-actions">
             <button class="btn-del" onclick="deleteApprovedPhoto(${p.id})">✕ Remove</button>

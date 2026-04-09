@@ -18,5 +18,11 @@
       "binding": "TNR_CLASSES",
       "id": "65321817b3174627b19c84ce470bb753"
     }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "PHOTOS",
+      "bucket_name": "tnr-photos"
+    }
   ]
 }

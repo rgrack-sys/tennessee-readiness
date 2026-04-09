@@ -307,7 +307,7 @@
     </div>
 
     <!-- Local artisan callout -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(255,255,255,0.06);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; background: rgba(255,255,255,0.06);">
       <div style="background: var(--bark); padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center;">
         <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--clay); margin-bottom: 0.75rem;">Made in East Tennessee</div>
         <div style="font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.5rem); color: var(--cream); line-height: 1.15; margin-bottom: 1.25rem;">Crafted by<br><span style="color: var(--clay);">Local Hands</span></div>
@@ -364,7 +364,7 @@
     </div>
 
     <!-- Rental callout -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(255,255,255,0.06);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; background: rgba(255,255,255,0.06);">
 
       <div style="background: #1e1208; display: grid; grid-template-rows: 1fr 1fr; min-height: 320px; gap: 2px;">
         <div style="position: relative; overflow: hidden;">
@@ -448,16 +448,13 @@
 
 <script>
 // ── PORCH GALLERY ──────────────────────────────────────────────────────────
-const PENDING_KEY  = 'tnr_pending_photos';
-const APPROVED_KEY = 'tnr_approved_photos';
 
-function handlePhotoUpload(event) {
-  Array.from(event.target.files).forEach(file => {
-    const reader = new FileReader();
-    reader.onload = e => submitToStaging(e.target.result, file.name);
-    reader.readAsDataURL(file);
-  });
+async function handlePhotoUpload(event) {
+  const files = Array.from(event.target.files);
   event.target.value = '';
+  for (const file of files) {
+    await submitToStaging(file);
+  }
 }
 
 function handleBigChairUpload(event) {
@@ -468,24 +465,29 @@ function handleBigChairUpload(event) {
   reader.readAsDataURL(file);
 }
 
-function handleDrop(event) {
+async function handleDrop(event) {
   event.preventDefault();
   document.getElementById('uploadZone').style.borderColor = 'rgba(196,134,90,0.4)';
-  Array.from(event.dataTransfer.files)
-    .filter(f => f.type.startsWith('image/'))
-    .forEach(file => {
-      const reader = new FileReader();
-      reader.onload = e => submitToStaging(e.target.result, file.name);
-      reader.readAsDataURL(file);
-    });
+  const files = Array.from(event.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+  for (const file of files) {
+    await submitToStaging(file);
+  }
 }
 
 // ── STAGING QUEUE ──────────────────────────────────────────────────────────
-function submitToStaging(src, name) {
-  const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
-  pending.push({ id: Date.now(), src, name, submitted: new Date().toISOString() });
-  localStorage.setItem(PENDING_KEY, JSON.stringify(pending));
-  showUploadConfirmation();
+async function submitToStaging(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  try {
+    const res = await fetch('/api/photos/upload', { method: 'POST', body: formData });
+    if (res.ok) {
+      showUploadConfirmation();
+    } else {
+      showUploadError(res.status === 413 ? 'File too large (25MB max)' : 'Upload failed');
+    }
+  } catch {
+    showUploadError('Upload failed');
+  }
 }
 
 function showUploadConfirmation() {
@@ -494,16 +496,36 @@ function showUploadConfirmation() {
   zone.style.borderColor = '#7ec87e';
   msg.textContent  = '✓ Photo submitted — thank you! It will appear after review.';
   msg.style.color  = '#7ec87e';
-  setTimeout(() => {
-    zone.style.borderColor = 'rgba(196,134,90,0.4)';
-    msg.textContent = 'Click or drag & drop photos here — they\'ll be reviewed before appearing in the gallery';
-    msg.style.color = 'var(--stone)';
-  }, 4000);
+  setTimeout(resetUploadZone, 4000);
+}
+
+function showUploadError(text) {
+  const zone = document.getElementById('uploadZone');
+  const msg  = document.getElementById('uploadMsg');
+  zone.style.borderColor = '#e07070';
+  msg.textContent  = '✕ ' + text;
+  msg.style.color  = '#e07070';
+  setTimeout(resetUploadZone, 4000);
+}
+
+function resetUploadZone() {
+  const zone = document.getElementById('uploadZone');
+  const msg  = document.getElementById('uploadMsg');
+  zone.style.borderColor = 'rgba(196,134,90,0.4)';
+  msg.textContent = 'Click or drag & drop photos here — they\'ll be reviewed before appearing in the gallery';
+  msg.style.color = 'var(--stone)';
 }
 
 // ── APPROVED GALLERY ───────────────────────────────────────────────────────
-function renderApprovedGallery() {
-  const approved = JSON.parse(localStorage.getItem(APPROVED_KEY) || '[]');
+async function renderApprovedGallery() {
+  let approved = [];
+  try {
+    const res = await fetch('/api/photos/approved');
+    if (res.ok) {
+      const data = await res.json();
+      approved = data.approved || [];
+    }
+  } catch {}
   const grid = document.getElementById('galleryGrid');
   grid.innerHTML = '';
   if (approved.length === 0) return;
@@ -513,7 +535,7 @@ function renderApprovedGallery() {
     const div = document.createElement('div');
     div.style.cssText = 'position:relative;overflow:hidden;aspect-ratio:4/3;background:#1a0f06;';
     div.innerHTML = `
-      <img src="${photo.src}" alt="${label}"
+      <img src="/photos/${encodeURIComponent(photo.key)}" alt="${label}"
         style="width:100%;height:100%;object-fit:cover;filter:saturate(0.75);transition:transform 0.4s,filter 0.3s;"
         onmouseover="this.style.transform='scale(1.05)';this.style.filter='saturate(1)'"
         onmouseout="this.style.transform='scale(1)';this.style.filter='saturate(0.75)'">
