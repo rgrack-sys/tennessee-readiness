@@ -482,7 +482,7 @@ async function submitToStaging(file) {
   try {
     const res = await fetch('/api/photos/upload', { method: 'POST', body: formData });
     if (res.ok) {
-      showUploadConfirmation();
+      showUploadConfirmationAndReload();
     } else {
       showUploadError(res.status === 413 ? 'File too large (25MB max)' : 'Upload failed');
     }
@@ -521,7 +521,7 @@ function resetUploadZone() {
 async function renderApprovedGallery() {
   let approved = [];
   try {
-    const res = await fetch('/api/photos/approved');
+    const res = await fetch('/api/photos/approved', { cache: 'no-store' });
     if (res.ok) {
       const data = await res.json();
       approved = data.approved || [];
@@ -529,10 +529,8 @@ async function renderApprovedGallery() {
   } catch {}
   const grid = document.getElementById('galleryGrid');
   grid.innerHTML = '';
-  if (approved.length === 0) return;
-  document.getElementById('placeholderGallery').style.display = 'none';
   approved.forEach(photo => {
-    const label = photo.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+    const label = photo.caption || photo.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
     const div = document.createElement('div');
     div.style.cssText = 'position:relative;overflow:hidden;aspect-ratio:4/3;background:#1a0f06;';
     div.innerHTML = `
@@ -550,6 +548,11 @@ async function renderApprovedGallery() {
 }
 
 renderApprovedGallery();
+
+function showUploadConfirmationAndReload() {
+  showUploadConfirmation();
+  renderApprovedGallery();
+}
 
 // ── HAMBURGER NAV ──────────────────────────────────────────────────────────
 function toggleNav() {
