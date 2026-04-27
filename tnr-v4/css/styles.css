@@ -261,21 +261,27 @@
 
   .about-images {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr auto;
     grid-template-columns: 1fr 1fr;
+    height: 100%;
   }
 
   .about-images img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     transition: transform 0.4s ease;
     filter: saturate(0.85);
   }
 
   .about-images img:hover { transform: scale(1.03); filter: saturate(1); }
 
-  .img-span { grid-column: span 2; }
+  .img-span {
+    grid-column: span 2;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
 
   /* ── INFO ── */
   .info {
