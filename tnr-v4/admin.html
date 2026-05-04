@@ -783,10 +783,10 @@
 </div>
 
 <script>
-const SESSION_KEY = 'tnr_admin_session';
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const CAT_LABELS = { camping: '🏕️ Camping', preparedness: '🛡️ Preparedness', hiking: '🥾 Hiking', 'first-aid': '🩹 First Aid', 'self-defense': '🥋 Self Defense', homeschool: '📚 Home School', 'arts-crafts': '🎨 Arts & Crafts', nutrition: '🥗 Nutrition', cooking: '🍳 Food', 'bible-study': '✝️ Bible Study', private: '🔒 Private Function', joke: '😄 Joke', 'book-signing': '✍️ Book Signing' };
 
+let adminPassword = null;
 let classes = [];
 let editingId = null;
 
@@ -797,7 +797,7 @@ async function attemptLogin() {
     headers: { 'Authorization': `Bearer ${val}` }
   });
   if (res.ok) {
-    sessionStorage.setItem(SESSION_KEY, val);
+    adminPassword = val;
     showAdmin();
   } else {
     document.getElementById('loginError').style.display = 'block';
@@ -807,7 +807,7 @@ async function attemptLogin() {
 }
 
 function logout() {
-  sessionStorage.removeItem(SESSION_KEY);
+  adminPassword = null;
   document.getElementById('adminScreen').style.display = 'none';
   document.getElementById('loginScreen').style.display = 'flex';
   document.getElementById('passwordInput').value = '';
@@ -828,7 +828,7 @@ async function loadClasses() {
 }
 
 async function saveClasses() {
-  const pw = sessionStorage.getItem(SESSION_KEY);
+  const pw = adminPassword;
   await fetch('/api/classes', {
     method: 'POST',
     headers: {
@@ -1008,7 +1008,7 @@ function switchTab(tab) {
 // ── PHOTO STAGING ────────────────────────────────────────────────────────────
 
 async function loadPhotos() {
-  const pw = sessionStorage.getItem(SESSION_KEY);
+  const pw = adminPassword;
   try {
     const res = await fetch('/api/photos/all', {
       headers: { 'Authorization': `Bearer ${pw}` }
@@ -1019,7 +1019,7 @@ async function loadPhotos() {
 }
 
 async function photoApiCall(path, id, caption) {
-  const pw = sessionStorage.getItem(SESSION_KEY);
+  const pw = adminPassword;
   return await fetch(path, {
     method: 'POST',
     headers: {
@@ -1173,9 +1173,6 @@ document.getElementById('deleteModal').addEventListener('click', function(e) {
 
 // ── INIT ────────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
-  if (sessionStorage.getItem(SESSION_KEY)) {
-    showAdmin();
-  }
   document.getElementById('passwordInput').focus();
 });
 </script>
