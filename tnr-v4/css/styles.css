@@ -163,11 +163,17 @@
 
   .btn-outline:hover { border-color: var(--cream); }
 
-  .hero-banner {
+  .hero-banners {
     position: absolute;
     top: 70px;
     left: 0;
     right: 0;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 1.5s 0.5s both;
+  }
+
+  .hero-banner {
     background: rgba(170, 195, 154, 0.95);
     color: var(--bark);
     font-family: 'Barlow Condensed', sans-serif;
@@ -1016,6 +1022,14 @@
     }
 
     /* ─ HERO ─ */
+    .hero { padding-top: 12rem; }
+    .hero-banner {
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      padding: 0.55rem 1rem;
+      gap: 0.4rem;
+    }
+    .hero-banner-icon { font-size: 1.1rem; }
     .hero-ctas { flex-direction: column; align-items: stretch; max-width: 300px; margin-left: auto; margin-right: auto; }
     .btn-primary, .btn-outline { text-align: center; }
 
