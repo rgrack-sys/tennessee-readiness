@@ -569,16 +569,16 @@
 </section>
 
 <!-- ── FLOATING WATER SHOES BADGE ── -->
-<a href="#about" style="position:fixed; left:0; top:50%; transform:translateY(-50%); z-index:900; background:var(--ember); color:var(--cream); writing-mode:vertical-rl; text-orientation:mixed; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; padding:1.1rem 0.55rem; text-decoration:none; display:flex; align-items:center; gap:0.5rem; box-shadow:3px 0 12px rgba(0,0,0,0.35); border-radius:0 4px 4px 0; transition:padding 0.2s; transform:translateY(-50%) rotate(180deg);" onmouseover="this.style.paddingRight='0.85rem'" onmouseout="this.style.paddingRight='0.55rem'">
+<a id="floatWaterShoes" href="#about" style="position:fixed; left:0; top:50%; transform:translateY(-50%); z-index:900; background:var(--ember); color:var(--cream); writing-mode:vertical-rl; text-orientation:mixed; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; padding:1.1rem 0.55rem; text-decoration:none; display:flex; align-items:center; gap:0.5rem; box-shadow:3px 0 12px rgba(0,0,0,0.35); border-radius:0 4px 4px 0; transition:padding 0.2s, opacity 0.3s; transform:translateY(-50%) rotate(180deg);" onmouseover="this.style.paddingRight='0.85rem'" onmouseout="this.style.paddingRight='0.55rem'">
   <span style="writing-mode:horizontal-tb; font-size:1.1rem;">👟</span>Get Water Shoes Here
 </a>
 
 <!-- ── FLOATING BEAR SPRAY BADGE ── -->
-<a href="#about" style="position:fixed; right:0; top:calc(50% - 70px); transform:translateY(-50%); z-index:900; background:#4a3010; color:var(--cream); writing-mode:vertical-rl; text-orientation:mixed; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; padding:1.1rem 0.55rem; text-decoration:none; display:flex; align-items:center; gap:0.5rem; box-shadow:-3px 0 12px rgba(0,0,0,0.35); border-radius:4px 0 0 4px; transition:padding 0.2s;" onmouseover="this.style.paddingLeft='0.85rem'" onmouseout="this.style.paddingLeft='0.55rem'">
+<a id="floatAmmo" href="#about" style="position:fixed; right:0; top:calc(50% - 70px); transform:translateY(-50%); z-index:900; background:#4a3010; color:var(--cream); writing-mode:vertical-rl; text-orientation:mixed; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; padding:1.1rem 0.55rem; text-decoration:none; display:flex; align-items:center; gap:0.5rem; box-shadow:-3px 0 12px rgba(0,0,0,0.35); border-radius:4px 0 0 4px; transition:padding 0.2s, opacity 0.3s;" onmouseover="this.style.paddingLeft='0.85rem'" onmouseout="this.style.paddingLeft='0.55rem'">
   <span style="writing-mode:horizontal-tb; font-size:1.1rem;">🎯</span>Ammo
 </a>
 
-<a href="#about" style="position:fixed; right:0; top:calc(50% + 70px); transform:translateY(-50%); z-index:900; background:var(--ember); color:var(--cream); writing-mode:vertical-rl; text-orientation:mixed; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; padding:1.1rem 0.55rem; text-decoration:none; display:flex; align-items:center; gap:0.5rem; box-shadow:-3px 0 12px rgba(0,0,0,0.35); border-radius:4px 0 0 4px; transition:padding 0.2s;" onmouseover="this.style.paddingLeft='0.85rem'" onmouseout="this.style.paddingLeft='0.55rem'">
+<a id="floatBearSpray" href="#about" style="position:fixed; right:0; top:calc(50% + 70px); transform:translateY(-50%); z-index:900; background:var(--ember); color:var(--cream); writing-mode:vertical-rl; text-orientation:mixed; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; padding:1.1rem 0.55rem; text-decoration:none; display:flex; align-items:center; gap:0.5rem; box-shadow:-3px 0 12px rgba(0,0,0,0.35); border-radius:4px 0 0 4px; transition:padding 0.2s;" onmouseover="this.style.paddingLeft='0.85rem'" onmouseout="this.style.paddingLeft='0.55rem'">
   <span style="writing-mode:horizontal-tb; font-size:1.1rem;">🐻</span>We Have Bear Spray
 </a>
 
@@ -736,6 +736,26 @@ function showUploadConfirmationAndReload() {
   showUploadConfirmation();
   renderApprovedGallery();
 }
+
+// ── FLOATING BADGES: hide on mobile once About section is visible ──────────
+(function() {
+  const badges = ['floatWaterShoes', 'floatAmmo', 'floatBearSpray'].map(id => document.getElementById(id)).filter(Boolean);
+  if (!badges.length) return;
+  const isMobile = () => window.innerWidth < 768;
+  const about = document.getElementById('about');
+  if (!about) return;
+  const observer = new IntersectionObserver(([entry]) => {
+    if (!isMobile()) return;
+    badges.forEach(b => {
+      b.style.opacity = entry.isIntersecting ? '0' : '1';
+      b.style.pointerEvents = entry.isIntersecting ? 'none' : 'auto';
+    });
+  }, { threshold: 0.1 });
+  observer.observe(about);
+  window.addEventListener('resize', () => {
+    if (!isMobile()) badges.forEach(b => { b.style.opacity = '1'; b.style.pointerEvents = 'auto'; });
+  });
+})();
 
 // ── HAMBURGER NAV ──────────────────────────────────────────────────────────
 function toggleNav() {
