@@ -6,8 +6,33 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://tnreadiness.com/calendar.html</loc>
+    <loc>https://tnreadiness.com/calendar</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://tnreadiness.com/gift-shop</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tnreadiness.com/ammo</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tnreadiness.com/water-shoes</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tnreadiness.com/bear-spray</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://tnreadiness.com/nut-job</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
