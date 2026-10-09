@@ -4,12 +4,13 @@ GitHub is the shared source of truth. Every computer is a local working copy.
 
 ## Standard Interface
 
-Use either **Windows PowerShell** or **Git Bash**. Do not mix their path syntax.
+Use **Windows PowerShell**, **Windows Git Bash**, or **Linux Bash**. Do not mix their path syntax.
 
-All repositories should live under:
+Repository roots:
 
 ```text
-C:\Users\rgrac\Projects
+Windows: C:\Users\rgrac\Projects
+Linux:   /home/hair-daddy/Projects
 ```
 
 In Git Bash:
@@ -24,12 +25,19 @@ In Windows PowerShell:
 Set-Location "C:\Users\rgrac\Projects"
 ```
 
+In Linux Bash:
+
+```bash
+cd ~/Projects
+```
+
 Path rule:
 
 - Git Bash: `/c/Users/rgrac/Projects/<repo-name>`
 - PowerShell: `C:\Users\rgrac\Projects\<repo-name>`
+- Linux Bash: `/home/hair-daddy/Projects/<repo-name>` or `~/Projects/<repo-name>`
 
-Commands such as `git status`, `git pull`, `git add`, `git commit`, and `git push` are the same in both shells. Only filesystem navigation and some shell utilities differ.
+Commands such as `git status`, `git pull`, `git add`, `git commit`, and `git push` are the same in all three shells. Filesystem paths and some shell utilities differ.
 
 ---
 
@@ -41,7 +49,7 @@ Before doing anything with a project, determine which of these three situations 
                     START
                       |
           Does the repo folder exist
-          in C:\Users\rgrac\Projects?
+          under this machine's Projects root?
                  /            \
                YES             NO
                 |               |
@@ -108,6 +116,7 @@ GitHub `rgrack-sys/<repo-name>` is the source of truth for the project.
 The following are separate working or storage surfaces and do **not** synchronize automatically:
 
 - the Windows checkout under `C:\Users\rgrac\Projects`,
+- the Linux checkout under `/home/hair-daddy/Projects`,
 - a Codex or ChatGPT Work checkout,
 - ChatGPT Library,
 - files attached to an individual chat,
@@ -296,16 +305,18 @@ nothing to commit, working tree clean
 If the repo exists locally:
 
 ```bash
-cd /c/Users/rgrac/Projects/<repo-name>
+cd <platform-project-root>/<repo-name>
 git pull
 ```
 
 If the repo does not exist locally but exists on GitHub:
 
 ```bash
-cd /c/Users/rgrac/Projects
+cd <platform-project-root>
 gh repo clone rgrack-sys/<repo-name>
 ```
+
+Use the platform root defined at the beginning of this document. In PowerShell, use `Set-Location` with the Windows path instead of the Bash-style `cd` example.
 
 Do not manually copy project folders between machines when GitHub can synchronize them.
 
@@ -313,17 +324,38 @@ Do not manually copy project folders between machines when GitHub can synchroniz
 
 # Cloning an Existing GitHub Repository
 
-## Step 1 — Open Git Bash
+## Step 1 — Open a terminal and enter the platform project root
+
+Windows PowerShell:
+
+```powershell
+Set-Location "C:\Users\rgrac\Projects"
+```
+
+Windows Git Bash:
 
 ```bash
 cd /c/Users/rgrac/Projects
 pwd
 ```
 
-Expected:
+Linux Bash:
+
+```bash
+cd ~/Projects
+pwd
+```
+
+Expected on Windows Git Bash:
 
 ```text
 /c/Users/rgrac/Projects
+```
+
+Expected on Linux:
+
+```text
+/home/hair-daddy/Projects
 ```
 
 ## Step 2 — Verify the Repo Exists on GitHub
@@ -388,17 +420,33 @@ or:
 
 ## Step 1 — Create or Enter the Project Folder
 
+Windows PowerShell:
+
+```powershell
+Set-Location "C:\Users\rgrac\Projects"
+New-Item -ItemType Directory -Name "<repo-name>"
+Set-Location "<repo-name>"
+```
+
+Windows Git Bash:
+
 ```bash
 cd /c/Users/rgrac/Projects
 mkdir <repo-name>
 cd <repo-name>
 ```
 
-If the folder already exists because it contains project files:
+Linux Bash:
 
 ```bash
-cd /c/Users/rgrac/Projects/<repo-name>
+cd ~/Projects
+mkdir <repo-name>
+cd <repo-name>
 ```
+
+If the folder already exists because it contains project files:
+
+enter it using the appropriate platform path rather than creating it again.
 
 ## Step 2 — Inspect Before Initializing
 
@@ -532,6 +580,21 @@ Force pushing can overwrite work created on another machine.
 
 # Quick Reference
 
+## Existing local repo — Linux Bash
+
+```bash
+cd ~/Projects/<repo-name>
+git pull
+
+# WORK
+
+git status
+git add .
+git commit -m "Describe the change"
+git push
+git status -sb
+```
+
 ## Existing local repo — Windows PowerShell
 
 ```powershell
@@ -565,16 +628,18 @@ git status -sb
 ## GitHub repo missing from this machine
 
 ```bash
-cd /c/Users/rgrac/Projects
+cd <platform-project-root>
 gh repo clone rgrack-sys/<repo-name>
 cd <repo-name>
 git status -sb
 ```
 
+For Linux Bash, `<platform-project-root>` is `~/Projects`. For Windows Git Bash it is `/c/Users/rgrac/Projects`. In PowerShell, use `Set-Location "C:\Users\rgrac\Projects"`.
+
 ## Completely new project
 
 ```bash
-cd /c/Users/rgrac/Projects/<repo-name>
+cd <platform-project-root>/<repo-name>
 
 git init
 git add .
@@ -586,6 +651,8 @@ gh repo create rgrack-sys/<repo-name> --private --source=. --remote=origin --pus
 git status -sb
 ```
 
+Use `~/Projects/<repo-name>` on Linux, `/c/Users/rgrac/Projects/<repo-name>` in Windows Git Bash, or `Set-Location "C:\Users\rgrac\Projects\<repo-name>"` in PowerShell.
+
 ---
 
 # Mental Model
@@ -596,7 +663,7 @@ git status -sb
                       /      |      \
                    pull    pull     pull
                     ↓       ↓        ↓
-                Desktop   Laptop   Other PC
+                Windows   Linux    Other PC
                     ↑       ↑        ↑
                    push    push     push
 ```
