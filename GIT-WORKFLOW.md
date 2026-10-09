@@ -4,7 +4,7 @@ GitHub is the shared source of truth. Every computer is a local working copy.
 
 ## Standard Interface
 
-Use **Git Bash** unless explicitly stated otherwise.
+Use either **Windows PowerShell** or **Git Bash**. Do not mix their path syntax.
 
 All repositories should live under:
 
@@ -17,6 +17,19 @@ In Git Bash:
 ```bash
 cd /c/Users/rgrac/Projects
 ```
+
+In Windows PowerShell:
+
+```powershell
+Set-Location "C:\Users\rgrac\Projects"
+```
+
+Path rule:
+
+- Git Bash: `/c/Users/rgrac/Projects/<repo-name>`
+- PowerShell: `C:\Users\rgrac\Projects\<repo-name>`
+
+Commands such as `git status`, `git pull`, `git add`, `git commit`, and `git push` are the same in both shells. Only filesystem navigation and some shell utilities differ.
 
 ---
 
@@ -85,6 +98,109 @@ Use `--public` instead of `--private` when appropriate.
 > **Exists locally → PULL**  
 > **Exists only on GitHub → CLONE**  
 > **Exists nowhere → CREATE**
+
+---
+
+# Source-of-Truth and Storage Boundaries
+
+GitHub `rgrack-sys/<repo-name>` is the source of truth for the project.
+
+The following are separate working or storage surfaces and do **not** synchronize automatically:
+
+- the Windows checkout under `C:\Users\rgrac\Projects`,
+- a Codex or ChatGPT Work checkout,
+- ChatGPT Library,
+- files attached to an individual chat,
+- and files generated in a temporary workspace.
+
+Saving a file to Library or generating it in a chat does not add it to GitHub. Creating or updating a file directly on GitHub does not update any existing checkout until that checkout fetches and integrates the change.
+
+### Required artifact rule
+
+> **If an artifact is part of the project, it must have an explicit repository path and be committed to GitHub. Library may retain a user-facing copy, but it is not the Git source of truth.**
+
+Before ending a work session, classify every new artifact:
+
+1. **Project artifact** — place it in the repository, commit it, and publish it.
+2. **Library-only deliverable** — deliberately exclude it from the repository and say why.
+3. **Temporary working file** — leave it outside the repository and do not present it as saved project work.
+
+Never assume that similarly named files in Library and GitHub are synchronized versions of one file. Compare their contents and decide which is authoritative before copying either one over the other.
+
+---
+
+# ChatGPT Work / Codex Publishing
+
+ChatGPT Work may have an installed GitHub connector even when the temporary shell checkout has no HTTPS Git credential.
+
+## Authentication rule
+
+1. Verify that the GitHub connector can see the exact repository.
+2. Verify that its repository permissions include `pull` and `push`.
+3. Use the connector for GitHub reads and writes when ordinary `git push` reports that it cannot read a username or otherwise lacks credentials.
+4. Do not attempt to solve connector-backed publishing by entering a GitHub password in a browser. GitHub password authentication is not the publishing mechanism.
+
+## Before editing
+
+- Fetch or read the current GitHub default branch.
+- Confirm the intended file path and current content/blob version.
+- Compare GitHub with the working copy.
+- Preserve newer work from either side before editing.
+
+## Publishing through the connector
+
+- Publish only the intended files.
+- Use current remote file/blob versions so concurrent changes are not silently overwritten.
+- Prefer one coherent commit when the connector supports an atomic multi-file commit.
+- After publishing, fetch `origin/main` into the checkout.
+- Reconcile any local commit whose patch was already published through the connector.
+- Verify both content identity and branch state.
+
+Required verification:
+
+```bash
+git fetch origin main
+git status -sb
+git log --oneline --graph --decorate --all -10
+```
+
+Expected final branch state:
+
+```text
+## main...origin/main
+```
+
+If the checkout is ahead and behind after connector publication, preserve the local commit on a backup branch before rebasing or otherwise reconciling it. Git should drop a duplicate patch only when that patch is already present upstream.
+
+---
+
+# Repository Completeness Audit
+
+Run this audit whenever files appear to exist in one surface but not another.
+
+## GitHub versus the current checkout
+
+```bash
+git fetch origin main
+git status -sb
+git ls-tree -r --name-only origin/main | sort > remote-files.txt
+git ls-files | sort > local-tracked-files.txt
+git diff --no-index remote-files.txt local-tracked-files.txt
+```
+
+No diff means GitHub and the checkout track the same paths. It does not prove that Library or chat attachments are in Git.
+
+## Library versus GitHub
+
+Inventory the relevant Library folder separately. For each Library-only file:
+
+- decide whether it is a project artifact,
+- choose its repository directory and filename,
+- check for a newer or canonical GitHub version,
+- add only the intended authoritative version,
+- then commit and publish it.
+
+Do not bulk-copy old canon snapshots over current canon.
 
 ---
 
@@ -416,7 +532,22 @@ Force pushing can overwrite work created on another machine.
 
 # Quick Reference
 
-## Existing local repo
+## Existing local repo — Windows PowerShell
+
+```powershell
+Set-Location "C:\Users\rgrac\Projects\<repo-name>"
+git pull
+
+# WORK
+
+git status
+git add .
+git commit -m "Describe the change"
+git push
+git status -sb
+```
+
+## Existing local repo — Git Bash
 
 ```bash
 cd /c/Users/rgrac/Projects/<repo-name>
