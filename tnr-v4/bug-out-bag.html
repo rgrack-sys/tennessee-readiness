@@ -152,11 +152,6 @@
   .promo .section-label { color: var(--bark); }
   .promo h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.5rem); line-height: 1.1; }
   .promo p { font-size: 1.15rem; line-height: 1.7; max-width: 680px; margin: 1.25rem auto 0; }
-  .promo-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; }
-  .promo-links a { background: rgba(44,31,14,0.85); padding: 1.1rem 1.5rem; min-width: 170px; border-top: 3px solid var(--cream); color: var(--cream); text-decoration: none; transition: transform 0.15s; }
-  .promo-links a:hover { transform: translateY(-2px); }
-  .promo-links .t { font-family: 'Playfair Display', serif; font-size: 1.3rem; display: block; }
-  .promo-links .u { font-size: 0.85rem; color: var(--fog); }
   .promo .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2.5rem; }
   .btn-dark { background: var(--bark); color: var(--cream); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.9rem 2rem; text-decoration: none; transition: transform 0.15s; display: inline-block; }
   .btn-dark:hover { transform: translateY(-2px); }
@@ -221,7 +216,7 @@
   <div class="wrap">
     <div class="section-label">The Basics</div>
     <h2 class="section-title">What Is a Bug-Out Bag?</h2>
-    <p class="lead">A bug-out bag — some agencies call it a go-bag — is a pre-packed bag you can grab and carry if you have to leave in a hurry: a wildfire, a flood, a chemical spill, a house fire, or a road home that's suddenly closed. Ready.gov notes that after an emergency you may need to get by on your own for several days. Your bag is what lets you do that when you can't stay home.</p>
+    <p class="lead">A bug-out bag — some agencies call it a go-bag — is a pre-packed bag you can grab and carry if you have to leave in a hurry: a wildfire, a flood, a chemical spill, a house fire, or a road home that's suddenly closed. The American Red Cross recommends keeping a three-day supply of water and food ready for evacuation. Your bag is what carries that supply when you can't stay home.</p>
     <p class="lead">It's different from a home emergency kit. A home kit can be big and heavy because it doesn't move. A bug-out bag has to go wherever your feet do.</p>
 
     <div class="principle">
@@ -268,7 +263,7 @@
 
     <div class="kit-grid">
       <div class="kit" id="water"><h3>💧 Water &amp; Hydration</h3>
-        <p class="note">Ready.gov plans on one gallon per person per day — and a gallon of water weighs over 8 pounds. You can't carry days of it, so carry some and bring a way to treat more.</p>
+        <p class="note">The American Red Cross plans on one gallon per person per day, with a three-day supply for evacuation — and a gallon of water weighs over 8 pounds. You can't carry all of it on your back, so carry what you can and bring a way to treat more.</p>
         <dl>
           <dt>Titanium canteen</dt><dd>A durable, lightweight water container. You need a way to carry water after you collect or treat it.</dd>
           <dt>Water filtration bottle</dt><dd>Lets you treat water from uncertain sources. Carrying water is only part of the problem; you also need a way to get more safely.</dd>
@@ -325,7 +320,7 @@
       </div>
 
       <div class="kit" id="medical"><h3>⛑️ Medical / First Aid</h3>
-        <p class="note">Ready.gov's kit list includes a first aid kit and your prescription medications — pack enough of your own meds for the days you'd be away.</p>
+        <p class="note">The American Red Cross kit list includes a first aid kit and a 7-day supply of medications and medical items — pack your own meds accordingly.</p>
         <dl>
           <dt>Moleskin</dt><dd>Treats hot spots and blisters before they get bad enough to stop you walking.</dd>
           <dt>Knee brace</dt><dd>Supports a known weak or injured knee. Swap in whatever brace or support fits your own recurring joint problems.</dd>
@@ -443,12 +438,16 @@
     <div class="section-label">Build Your Bag Locally</div>
     <h2>Gear Up at<br>Tennessee Readiness</h2>
     <p>Bring your bag by and we'll help you look it over. Pick up what you're missing right here in Cosby — no waiting on shipping.</p>
-    <div class="promo-links">
+    <div class="tiles-label">Explore More</div>
+    <div class="topic-tiles">
+      <a href="/calendar"><span class="t">Classes</span><span class="u">Hands-on skills</span></a>
+      <a href="/gift-shop"><span class="t">Gift Shop</span><span class="u">Mountain crafts &amp; keepsakes</span></a>
+      <a href="/nut-job"><span class="t">The Nut Job</span><span class="u">Fresh boiled peanuts</span></a>
       <a href="/ammo"><span class="t">Ammo</span><span class="u">In stock locally</span></a>
       <a href="/bear-spray"><span class="t">Bear Spray</span><span class="u">For the Smokies</span></a>
       <a href="/water-shoes"><span class="t">Water Shoes</span><span class="u">Creek crossings</span></a>
-      <a href="/mylar-bags"><span class="t">Mylar Bags</span><span class="u">Food storage</span></a>
-      <a href="/first-72-hours"><span class="t">First 72 Hours</span><span class="u">The plan behind the bag</span></a>
+      <a href="/mylar-bags"><span class="t">Mylar Bags</span><span class="u">Food storage how-to</span></a>
+      <a href="/first-72-hours"><span class="t">First 72 Hours</span><span class="u">What to expect &amp; do</span></a>
     </div>
     <div class="btn-row">
       <a href="tel:+14232814133" class="btn-dark">Call (423) 281-4133</a>
@@ -462,10 +461,9 @@
 <section class="block" style="padding-top:3rem; padding-bottom:3rem;">
   <div class="wrap sources">
     <div class="section-label">Learn More</div>
-    <p>The gear list and pack sizes come from a working Tennessee Readiness kit and are practical guidance, not official requirements. The "several days on your own" guidance, the one-gallon-per-person-per-day water figure, and the advice to pack a first aid kit and prescription medications come from Ready.gov.</p>
+    <p>The gear list and pack sizes come from a working Tennessee Readiness kit and are practical guidance, not official requirements. The water figure (one gallon per person per day, three-day supply for evacuation) and the advice to pack a first aid kit and a 7-day supply of medications come from the American Red Cross.</p>
     <ul>
-      <li><a href="https://www.ready.gov/build-a-kit" target="_blank" rel="noopener">Ready.gov — Build a Kit</a></li>
-      <li><a href="https://www.ready.gov/kit" target="_blank" rel="noopener">Ready.gov — Emergency Supply Kit</a></li>
+      <li><a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/survival-kit-supplies.html" target="_blank" rel="noopener">American Red Cross — Survival Kit Supplies</a></li>
     </ul>
   </div>
 </section>
