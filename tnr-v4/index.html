@@ -270,6 +270,14 @@
     <li><a href="#about">About</a></li>
     <li><a href="#info">Visit</a></li>
     <li><a href="/calendar">Classes</a></li>
+    <li class="has-sub">
+      <button class="nav-sub-toggle" type="button" aria-expanded="false" aria-haspopup="true" onclick="toggleSub(this)">Preparedness Guide <span class="caret">&#9662;</span></button>
+      <ul class="nav-sub">
+        <li><a href="/mylar-bags">Mylar Bags</a></li>
+        <li><a href="/first-72-hours">The First 72 Hours</a></li>
+        <li><a href="/bug-out-bag">Bug-Out Bag</a></li>
+      </ul>
+    </li>
     <li><a href="#porch">The Porch</a></li>
     <li><a href="#bigChairZone">Big Chair</a></li>
     <li><a href="/gift-shop">Gift Shop</a></li>
@@ -630,6 +638,8 @@
     <li><a href="/water-shoes">Water Shoes</a></li>
     <li><a href="/bear-spray">Bear Spray</a></li>
     <li><a href="/mylar-bags">Food Storage</a></li>
+    <li><a href="/first-72-hours">First 72 Hours</a></li>
+    <li><a href="/bug-out-bag">Bug-Out Bag</a></li>
     <li><a href="#backRoom">The Back Room</a></li>
       </ul>
     </div>
@@ -780,6 +790,18 @@ document.querySelectorAll('.nav-links a').forEach(a => {
     document.querySelector('.nav-links').classList.remove('is-open');
   });
 });
+function toggleSub(btn) {
+  const open = btn.parentElement.classList.toggle('is-open');
+  btn.setAttribute('aria-expanded', open);
+}
+function closeSubs() {
+  document.querySelectorAll('.has-sub.is-open').forEach(li => {
+    li.classList.remove('is-open');
+    li.querySelector('.nav-sub-toggle').setAttribute('aria-expanded', 'false');
+  });
+}
+document.addEventListener('click', e => { if (!e.target.closest('.has-sub')) closeSubs(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSubs(); });
 </script>
 </body>
 </html>
