@@ -68,6 +68,10 @@ async function uploadPhoto(file) {
       await reloadGallery();
     } else if (res.status === 413) {
       msg.textContent = 'File too large (25MB max). Please try a smaller photo.';
+    } else if (res.status === 415) {
+      msg.textContent = 'Only photo files (JPG, PNG, etc.) can be uploaded.';
+    } else if (res.status === 429) {
+      msg.textContent = 'Thanks! You\u2019ve reached the upload limit for now. Please try again later.';
     } else {
       msg.textContent = 'Upload failed. Please try again.';
     }
@@ -80,47 +84,7 @@ async function uploadPhoto(file) {
   }, 5000);
 }
 
-// ── BIG CHAIR ──
-function handleBigChairUpload(event) {
-  const file = event.target.files[0];
-  if (file) readAndSaveBigChair(file);
-}
-
-function handleBigChairDrop(event) {
-  event.preventDefault();
-  document.getElementById('bigChairZone').style.borderColor = 'rgba(196,134,90,0.3)';
-  const file = Array.from(event.dataTransfer.files).find(f => f.type.startsWith('image/'));
-  if (file) readAndSaveBigChair(file);
-}
-
-function readAndSaveBigChair(file) {
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      localStorage.setItem('tnr_bigchair_photo', e.target.result);
-    } catch(err) { /* storage full, still show it */ }
-    renderBigChairPhoto(e.target.result);
-  };
-  reader.readAsDataURL(file);
-}
-
-function renderBigChairPhoto(src) {
-  const zone = document.getElementById('bigChairZone');
-  zone.style.border = 'none';
-  zone.style.padding = '0';
-  zone.style.cursor = 'default';
-  zone.onclick = null;
-  zone.innerHTML = `
-    <img src="${src}" alt="The Big Chair" style="width:100%; height:100%; object-fit:cover; display:block;">
-    <button onclick="document.getElementById('bigChairUpload').click()" style="position:absolute; bottom:1rem; right:1rem; background:rgba(20,10,2,0.75); color:var(--fog); border:1px solid rgba(255,255,255,0.2); padding:0.4rem 0.9rem; font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer;">Replace Photo</button>
-  `;
-  zone.style.position = 'relative';
-}
-
 // Load on page ready
 document.addEventListener('DOMContentLoaded', () => {
   loadGalleryPhotos();
-
-  const bigChair = localStorage.getItem('tnr_bigchair_photo');
-  if (bigChair) renderBigChairPhoto(bigChair);
 });

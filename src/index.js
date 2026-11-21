@@ -16,6 +16,19 @@ function isAuthorized(request, env) {
   return auth === `Bearer ${env.ADMIN_PASSWORD}`;
 }
 
+const UPLOAD_LIMIT = 10;      // uploads allowed per visitor...
+const UPLOAD_WINDOW = 3600;   // ...per this many seconds
+const MAX_PENDING = 200;      // photos waiting for approval
+
+async function uploadLimitReached(request, env) {
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  const key = `ratelimit:upload:${ip}`;
+  const count = parseInt((await env.TNR_CLASSES.get(key)) || '0', 10);
+  if (count >= UPLOAD_LIMIT) return true;
+  await env.TNR_CLASSES.put(key, String(count + 1), { expirationTtl: UPLOAD_WINDOW });
+  return false;
+}
+
 const JSON_HEADERS = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' };
 
 async function handleAPI(request, env, url) {
@@ -60,14 +73,27 @@ async function handleAPI(request, env, url) {
   }
 
   if (url.pathname === '/api/photos/upload' && request.method === 'POST') {
+    // Per-visitor limit so the public upload form can't be used to flood storage
+    if (await uploadLimitReached(request, env)) {
+      return new Response('Too many uploads. Please try again later.', { status: 429 });
+    }
     const formData = await request.formData();
     const file = formData.get('file');
     if (!file || typeof file === 'string') {
       return new Response('No file provided', { status: 400 });
     }
+    // Images only
+    if (!file.type || !file.type.startsWith('image/')) {
+      return new Response('Only image files are accepted', { status: 415 });
+    }
     // Enforce size limit (25MB)
     if (file.size > 25 * 1024 * 1024) {
       return new Response('File too large (25MB max)', { status: 413 });
+    }
+    // Cap the review queue so it can't grow without bound (checked before storing anything)
+    const data = await loadPhotos(env);
+    if (data.pending.length >= MAX_PENDING) {
+      return new Response('Photo queue is full. Please try again later.', { status: 429 });
     }
     const id = Date.now() + Math.floor(Math.random() * 1000);
     const ext = getExtension(file.name);
@@ -78,7 +104,6 @@ async function handleAPI(request, env, url) {
       httpMetadata: { contentType: file.type || 'image/jpeg' }
     });
 
-    const data = await loadPhotos(env);
     data.pending.push({
       id,
       name: file.name,
