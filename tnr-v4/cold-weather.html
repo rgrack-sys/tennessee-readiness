@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://tnreadiness.com/cold-weather">
 <meta property="og:title" content="Cold Weather Survival | Tennessee Readiness">
 <meta property="og:description" content="A short hike, a winter drive or a power outage can leave you in the cold longer than you planned. How to prepare, stay warm and recognize cold injuries.">
-<meta property="og:image" content="https://tnreadiness.com/images/hero.jpg">
+<meta property="og:image" content="https://tnreadiness.com/images/cold-weather-infographic.jpg">
 <meta property="og:site_name" content="Tennessee Readiness">
 
 <!-- Twitter Card -->
@@ -28,7 +28,7 @@
   "headline": "Cold Weather Survival",
   "description": "How to prepare for cold weather, dress in layers, find shelter, treat snowmelt, recognize hypothermia, frostbite, trench foot and chilblains, and pack a winter vehicle kit.",
   "url": "https://tnreadiness.com/cold-weather",
-  "image": "https://tnreadiness.com/images/hero.jpg",
+  "image": "https://tnreadiness.com/images/cold-weather-infographic.jpg",
   "datePublished": "2026-11-21",
   "author": { "@type": "Organization", "name": "Tennessee Readiness" },
   "publisher": {
@@ -163,6 +163,13 @@
   .steps strong { color: var(--cream); }
   .kit-wrap h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.15rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--clay); margin-bottom: 1rem; }
 
+  /* Printable infographic */
+  .infographic { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 3rem; align-items: center; }
+  .infographic img { width: 100%; height: auto; display: block; box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
+  .infographic .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+  .btn-outline-dark { border: 2px solid var(--bark); color: var(--bark); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.8rem 1.8rem; text-decoration: none; display: inline-block; transition: background 0.15s, color 0.15s; }
+  .btn-outline-dark:hover { background: var(--bark); color: var(--cream); }
+
   /* Promo */
   .promo {
     background: linear-gradient(135deg, rgba(212,82,26,0.95), rgba(196,134,90,0.92)), url('images/store_exterior.jpg') center/cover no-repeat;
@@ -185,6 +192,7 @@
     .cold { grid-template-columns: 1fr 1fr; }
     .injuries { grid-template-columns: 1fr; }
     .kit-wrap { grid-template-columns: 1fr; gap: 2rem; }
+    .infographic { grid-template-columns: 1fr; gap: 2rem; }
   }
   @media (max-width: 768px) {
     .block { padding: 3.5rem 1.25rem; }
@@ -236,7 +244,7 @@
   <p class="hero-sub">A short hike, a winter drive or an unexpected power outage can leave you in the cold longer than you planned. Here's how to prepare, stay warm, and recognize when someone needs help.</p>
   <div class="hero-ctas">
     <a href="#injuries" class="btn-primary">Know the Cold Injuries</a>
-    <a href="#car-kit" class="btn-outline">Winter Car Kit</a>
+    <a href="#printable" class="btn-outline">Get the Printable</a>
   </div>
 </section>
 
@@ -394,6 +402,24 @@
           <li><div><strong>Clear the tailpipe first.</strong> Before running the engine, make sure the exhaust pipe is clear of snow.</div></li>
           <li><div><strong>Run it about 10 minutes an hour.</strong> Crack a window for fresh air while it runs, and turn it off before anyone sleeps — carbon monoxide can build up inside.</div></li>
         </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRINTABLE ── -->
+<section class="block" id="printable" style="scroll-margin-top:70px;">
+  <div class="wrap infographic">
+    <a href="files/cold-weather-survival-infographic.pdf" target="_blank" rel="noopener">
+      <img src="images/cold-weather-infographic.jpg" alt="Cold Weather Survival quick guide: before you go, dress to stay dry with base, middle and outer layers and COLD, spot cold injuries early (hypothermia, frostbite, trench foot, chilblains), and what to do if stranded in a snowstorm" width="1000" height="1294" loading="lazy" decoding="async">
+    </a>
+    <div>
+      <div class="section-label">Keep It Handy</div>
+      <h2 class="section-title">The One-Page Version</h2>
+      <p class="lead">The whole guide on a single letter-size sheet. Print one for the glove box, one for your pack and one for the fridge. When you're cold and stuck, you won't want to be scrolling.</p>
+      <div class="btn-row">
+        <a href="files/cold-weather-survival-infographic.pdf" target="_blank" rel="noopener" class="btn-primary">Download the PDF to Print</a>
+        <a href="/bug-out-bag" class="btn-outline-dark">Next: Build a Bug-Out Bag</a>
       </div>
     </div>
   </div>
