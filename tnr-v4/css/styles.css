@@ -1056,10 +1056,9 @@
   .explore .btn-outline { border-color: var(--cream); }
 
   .tiles-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--bark); margin-top: 2.75rem; text-align: center; }
-  .topic-tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; max-width: 960px; margin: 1rem auto 0; }
-  .topic-tiles.nine { max-width: 720px; }
+  .topic-tiles { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; max-width: 1150px; margin: 1rem auto 0; }
   .topic-tiles a {
-    flex: 0 1 220px;
+    flex: 0 1 200px;
     background: rgba(44,31,14,0.85);
     padding: 1.1rem 1rem;
     border-top: 3px solid var(--cream);
