@@ -8,11 +8,12 @@
     --ember: #D4521A;
     --pine: #2D4A2D;
     --sky: #6B8EA8;
+    --announce-h: 38px; /* height of the announcement bar above the nav */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--announce-h); }
 
   body {
     font-family: 'Barlow', sans-serif;
@@ -32,10 +33,71 @@
     opacity: 0.5;
   }
 
+  /* ── ANNOUNCEMENT BAR (top of every page, above the nav) ── */
+  .announce {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 901;
+    height: var(--announce-h);
+    background: var(--ember);
+    border-bottom: 1px solid rgba(44, 31, 14, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+  }
+  .announce a {
+    color: var(--cream);
+    text-decoration: none;
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .announce strong { font-weight: 600; color: white; }
+  .announce .iykyk {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    border: 1px solid rgba(242, 237, 228, 0.75);
+    padding: 0.05rem 0.4rem;
+  }
+  .announce .announce-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-left: 0.6rem;
+    padding-left: 0.85rem;
+    border-left: 1px solid rgba(242, 237, 228, 0.5);
+  }
+  .announce a:hover .announce-cta-text { text-decoration: underline; }
+  @media (max-width: 560px) {
+    .announce { padding: 0 0.5rem; }
+    .announce a { font-size: 0.85rem; gap: 0.3rem; }
+    .announce .announce-cta { display: none; } /* whole bar is still a link */
+  }
+  @media (max-width: 370px) {
+    .announce a { font-size: 0.78rem; gap: 0.25rem; }
+    .announce .iykyk { font-size: 0.7rem; padding: 0 0.3rem; }
+  }
+  @media (max-width: 340px) {
+    .announce a { font-size: 0.72rem; letter-spacing: 0; }
+    .announce .iykyk { letter-spacing: 0.05em; }
+  }
+
   /* ── NAV ── */
   nav {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: var(--announce-h); left: 0; right: 0;
     z-index: 900;
     display: flex;
     justify-content: space-between;
@@ -126,7 +188,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 22rem 2rem 2rem;
+    padding: calc(22rem + var(--announce-h)) 2rem 2rem;
     position: relative;
   }
 
@@ -209,7 +271,7 @@
 
   .hero-banners {
     position: absolute;
-    top: 70px;
+    top: calc(70px + var(--announce-h));
     left: 0;
     right: 0;
     display: flex;
@@ -1097,7 +1159,7 @@
       padding-bottom: 0.5rem;
       border-top: 1px solid rgba(196,134,90,0.3);
     }
-    .nav-links.is-open { display: flex; max-height: calc(100vh - 70px); overflow-y: auto; }
+    .nav-links.is-open { display: flex; max-height: calc(100vh - 70px - var(--announce-h)); overflow-y: auto; }
     .nav-links li { border-bottom: 1px solid rgba(255,255,255,0.06); }
     .nav-links a {
       display: block;
@@ -1132,7 +1194,7 @@
   @media (max-width: 768px) {
 
     /* ─ HERO ─ */
-    .hero { padding-top: 12rem; }
+    .hero { padding-top: calc(13.5rem + var(--announce-h)); }
     .hero-banner {
       font-size: 0.95rem;
       letter-spacing: 0.1em;
@@ -1181,4 +1243,11 @@
 
     /* ─ FORMS ─ */
     .form-row { grid-template-columns: 1fr; }
+  }
+  /* home page: its own hero banners wrap to two lines on narrow phones; give the heading room */
+  @media (max-width: 420px) {
+    .hero { padding-top: calc(14.5rem + var(--announce-h)); }
+  }
+  @media (max-width: 340px) {
+    .hero { padding-top: calc(16rem + var(--announce-h)); }
   }

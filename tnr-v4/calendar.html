@@ -62,6 +62,11 @@
 </head>
 <body>
 
+<!-- ── ANNOUNCEMENT BAR (same on every page; plain HTML so search engines and AI crawlers can read it) ── -->
+<aside class="announce" aria-label="Store announcement">
+  <a href="/#info">We have <strong>MREs</strong> and <strong>Humanitarian Rations</strong> <span class="iykyk">(IYKYK)</span><span class="announce-cta"><span class="announce-cta-text">Stop by the store</span> &rarr;</span></a>
+</aside>
+
 <!-- ── NAV ── -->
 <nav>
   <a class="nav-brand" href="/" style="display:flex;align-items:center;gap:0.6rem;">
@@ -94,7 +99,7 @@
 </nav>
 
 <!-- ── CALENDAR ── -->
-<section id="calendar" style="padding-top:90px;">
+<section id="calendar" style="padding-top:calc(90px + var(--announce-h));">
   <div class="calendar-inner">
     <div class="calendar-header">
       <div>
