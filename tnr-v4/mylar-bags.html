@@ -1,17 +1,25 @@
 <!DOCTYPE html>
+<!--
+  Content source: readiness topic "food-storage-in-mylar-bags"
+  Brief: assets/food-storage-in-mylar-bags/content/brief.md (revision 1)
+  Readiness commit: f1364bfa7d660a23308d0e62438a2ea88ad96b7e
+  Brief SHA-256: 5e7c2d538fabcf21e7b07b51c1dddca0e20e89378172f22e2c3668285892ea5f
+  Brief status when built: REFINED, owner approval pending (preview draft, Nov 23, 2026)
+  Owner-directed additions beyond the brief: absorber sizing chart, labeled as a rule of thumb that defers to the maker's chart.
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>How to Store Food in Mylar Bags | Tennessee Readiness — Cosby, TN</title>
-<meta name="description" content="Step-by-step guide to long-term food storage in Mylar bags with oxygen absorbers: what to store, what to avoid, absorber sizes and how to seal. Mylar bags at Tennessee Readiness in Cosby, TN.">
+<meta name="description" content="How to store dry staples in Mylar bags with oxygen absorbers: which foods qualify, how to seal and inspect, where to store, how to rotate and when to throw food out. Mylar bags at Tennessee Readiness in Cosby, TN.">
 <link rel="canonical" href="https://tnreadiness.com/mylar-bags">
 
 <!-- Open Graph -->
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://tnreadiness.com/mylar-bags">
 <meta property="og:title" content="How to Store Food in Mylar Bags | Tennessee Readiness">
-<meta property="og:description" content="Pack rice, beans and other dry staples in Mylar bags with oxygen absorbers so they keep for years. Simple steps, safety notes and a sizing guide.">
+<meta property="og:description" content="Pack verified-dry staples like white rice, wheat berries and dry beans in Mylar bags with oxygen absorbers. Food choice, sealing, storage and safety checks.">
 <meta property="og:image" content="https://tnreadiness.com/images/logo.jpg">
 <meta property="og:site_name" content="Tennessee Readiness">
 
@@ -30,6 +38,7 @@
   "url": "https://tnreadiness.com/mylar-bags",
   "image": "https://tnreadiness.com/images/hero.jpg",
   "datePublished": "2026-11-20",
+  "dateModified": "2026-11-23",
   "author": { "@type": "Organization", "name": "Tennessee Readiness" },
   "publisher": {
     "@type": "Organization",
@@ -56,17 +65,23 @@
     {
       "@type": "Question",
       "name": "Can I store food in Mylar bags without oxygen absorbers?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Mylar blocks light and moisture, but the oxygen already inside the bag is what spoils food over time. For long-term storage of dry staples like rice, beans and wheat, add an oxygen absorber sized to the bag before sealing." }
+      "acceptedAnswer": { "@type": "Answer", "text": "A sealed foil-laminate pouch limits light, moisture and oxygen getting in, but the air already inside the pouch still contains oxygen. For long-term storage of suitable dry staples such as plain white rice, wheat berries and dry beans, add food-storage oxygen absorbers sized by the absorber maker's chart for that pouch and fill, then heat-seal promptly. An absorber removes oxygen only; it does not dry or sterilize food." }
     },
     {
       "@type": "Question",
       "name": "What foods should not be sealed in Mylar with an oxygen absorber?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Anything that is not bone-dry, because low-oxygen packaging with moisture can allow botulism bacteria to grow. Keep out nuts, seeds, jerky, soft dried fruit, granola and anything with added oil or fat. Food should be about 10% moisture or less." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Only shelf-stable, low-oil food verified to be about 10% moisture or less (Utah State University Extension guidance) belongs in a pouch with an oxygen absorber, because moist food in low-oxygen packaging can present a botulism risk. Keep out fresh or cooked food, cheese, jerky, moist or uncertain home-dried produce, and higher-oil foods such as brown rice, nuts, granola and whole-wheat flour. Store sugar and salt separately without an absorber. If you are not sure a food is dry enough, keep it in its original packaging." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a tight, shrunken Mylar bag mean the food is safe?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Most of the air in a bag is nitrogen, which stays after the absorber removes oxygen, so a bag may or may not pull tight. A loose bag is not proof the absorber failed, and a tight bag is no guarantee of food safety. Inspect the full heat seal instead, and throw out any pouch that becomes unusually swollen, damp, moldy, infested, leaking or water-damaged without tasting it."
+      }
     },
     {
       "@type": "Question",
       "name": "Where can I buy Mylar bags near the Smoky Mountains?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Tennessee Readiness at 5036 Hooper Hwy in Cosby, TN stocks Mylar bags. Open Wednesday–Saturday 10AM–6PM; Monday, Tuesday and Sunday hours vary, so call (423) 281-4133 ahead." }
+      "acceptedAnswer": { "@type": "Answer", "text": "Tennessee Readiness at 5036 Hooper Hwy in Cosby, TN stocks Mylar bags in 2-quart, 1-gallon, 2-gallon and 5-gallon sizes. Open Wednesday–Saturday 10AM–6PM; Monday, Tuesday and Sunday hours vary, so call (423) 281-4133 ahead." }
     }
   ]
 }
@@ -133,19 +148,16 @@
   table.guide td:first-child { color: var(--cream); font-weight: 500; }
   .fine { font-size: 0.85rem; color: var(--stone); margin-top: 1rem; line-height: 1.6; }
 
-  /* Do / Don't */
-  .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--fog); margin-top: 3rem; }
-  .dodont > div { background: var(--cream); padding: 2rem; }
-  .dodont h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
-  .dodont .yes h3 { color: var(--moss); }
-  .dodont .no h3 { color: #a8321a; }
-  .dodont ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-  .dodont li { line-height: 1.5; padding-left: 1.6rem; position: relative; }
-  .dodont .yes li::before { content: '✓'; position: absolute; left: 0; color: var(--moss); font-weight: 700; }
-  .dodont .no li::before { content: '✕'; position: absolute; left: 0; color: #a8321a; font-weight: 700; }
-
   .warning { margin-top: 2rem; padding: 1.5rem 1.75rem; background: rgba(212,82,26,0.1); border-left: 5px solid var(--ember); line-height: 1.7; }
   .warning strong { font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 0.3rem; }
+
+  .note { margin-top: 2rem; padding: 1.5rem 1.75rem; background: rgba(74,94,58,0.1); border-left: 5px solid var(--moss); line-height: 1.7; }
+  .note strong { font-family: 'Barlow Condensed', sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: var(--moss); display: block; margin-bottom: 0.3rem; }
+  .block-dark .warning, .block-deep .warning { color: var(--fog); }
+  table.food td:first-child { width: 36%; }
+  .discard-list { margin: 0.75rem 0 0 1.25rem; line-height: 1.7; }
+  .example { margin-top: 2rem; padding: 1.75rem; background: white; border-left: 4px solid var(--clay); line-height: 1.7; }
+  .example .tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--clay); display: block; margin-bottom: 0.4rem; }
 
   /* Storage tips */
   .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
@@ -174,7 +186,6 @@
   .sources a { color: var(--clay); }
 
   @media (max-width: 768px) {
-    .dodont { grid-template-columns: 1fr; }
     .step { grid-template-columns: 1fr; gap: 0.5rem; }
     .block { padding: 3.5rem 1.25rem; }
   }
@@ -222,7 +233,7 @@
 <section class="page-hero">
   <div class="hero-badge">Preparedness Guide</div>
   <h1>Storing Food in<span>Mylar Bags</span></h1>
-  <p class="hero-sub">How to pack rice, beans, wheat and other dry staples so they keep for years — not months. Simple, cheap, and you can do it at your kitchen table.</p>
+  <p class="hero-sub">How to pack dry staples like plain white rice, wheat berries and dry beans so they keep their quality for years. Start with the right food, seal it right, and check it every time you rotate.</p>
   <div class="hero-ctas">
     <a href="#steps" class="btn-primary">Jump to the Steps</a>
     <a href="#buy" class="btn-outline">Get Mylar Bags Here</a>
@@ -234,14 +245,44 @@
   <div class="wrap">
     <div class="section-label">The Basics</div>
     <h2 class="section-title">Why Mylar Works</h2>
-    <p class="lead">Stored food is ruined by four things: oxygen, moisture, light and pests. A Mylar bag is a pouch of PET plastic film laminated with a thin layer of metal foil. Sealed shut with an oxygen absorber tucked in, it blocks the first three almost completely — and a bucket around it handles the fourth.</p>
+    <p class="lead">Stored food is ruined by oxygen, moisture, light and pests. A Mylar bag is a pouch of plastic film laminated with a thin foil layer. Heat-sealed with an oxygen absorber inside, it limits the first three, and a lidded bin around it guards against the fourth. One thing it can't do: an oxygen absorber removes oxygen, but it <strong>does not dry food, sterilize it or remove toxins</strong>. The food has to be right before it goes in.</p>
 
     <div class="why-grid">
-      <div class="why-card"><div class="icon">🫧</div><h3>Stops Oxygen</h3><p>Oxygen turns oils rancid, fades flavor and lets bugs survive. The absorber pulls it out; the foil keeps it out.</p></div>
-      <div class="why-card"><div class="icon">💧</div><h3>Blocks Moisture</h3><p>Moisture brings mold and bacteria. Mylar is close to waterproof once heat-sealed.</p></div>
-      <div class="why-card"><div class="icon">🌑</div><h3>Blocks Light</h3><p>Light breaks down vitamins and color. The foil layer is fully opaque.</p></div>
-      <div class="why-card"><div class="icon">📦</div><h3>Portion Control</h3><p>Pack in 1-gallon bags and you only open what you'll use, keeping the rest sealed.</p></div>
+      <div class="why-card"><div class="icon">🫧</div><h3>Removes Oxygen</h3><p>Oxygen turns oils rancid and fades flavor. The absorber takes oxygen out of the sealed bag; the foil layer helps keep more from getting back in.</p></div>
+      <div class="why-card"><div class="icon">💧</div><h3>Keeps Moisture Out</h3><p>The foil layer limits moisture getting in. It won't dry food that's already damp — that's why food choice comes first.</p></div>
+      <div class="why-card"><div class="icon">🌑</div><h3>Blocks Light</h3><p>Light breaks down vitamins and color. The pouch blocks it.</p></div>
+      <div class="why-card"><div class="icon">📦</div><h3>Portion Control</h3><p>Pack portions you can finish after opening, and keep the rest sealed.</p></div>
     </div>
+  </div>
+</section>
+
+<!-- ── CHOOSE FOOD FIRST ── -->
+<section class="block block-deep" id="foods" style="scroll-margin-top:70px;">
+  <div class="wrap">
+    <div class="section-label">Choose Your Food First</div>
+    <h2 class="section-title">What to Store — and What Not To</h2>
+    <p class="lead">Use oxygen absorbers only with <strong>shelf-stable, low-oil food verified to be dry enough</strong>. Utah State University Extension uses about 10% moisture or less as household guidance. "Shelf-stable in its retail bag," "dry to the touch" and "dry enough for low-oxygen packing" are three different things. If the label doesn't tell you, ask the supplier for the product specification — and if you still don't know, keep the food in its original packaging and follow the label.</p>
+
+    <div class="warning">
+      <strong>⚠ Moisture + No Oxygen = Botulism Risk</strong>
+      Utah State University Extension warns that botulism poisoning may result if moist products are stored in packaging that reduces oxygen. Never use this method to make wet or perishable food shelf-stable.
+    </div>
+
+    <div class="table-wrap">
+      <table class="guide food">
+        <thead><tr><th>Food</th><th>What to Do</th></tr></thead>
+        <tbody>
+          <tr><td>Plain polished white rice, whole wheat berries, dry beans, lentils, split peas</td><td>Good first choices — when the exact product is shelf-stable, low in oil and verified dry enough. Some white rice is sold above the moisture guidance, so check the specification.</td></tr>
+          <tr><td>Plain rolled oats, plain dry pasta</td><td>Only if the specific product meets the same requirements. Check blends and added ingredients separately. If unsure, keep it in its original packaging and rotate it through normal use.</td></tr>
+          <tr><td>White flour, powdered milk</td><td>Keep in the original packaging and rotate. Moisture and storage life vary by product. For long storage, buy manufacturer-packed long-storage products.</td></tr>
+          <tr><td>Brown rice, nuts, granola, whole-wheat flour and other higher-oil foods</td><td>Not for this method. Their oils go rancid. Store them normally, follow the package directions and rotate them sooner.</td></tr>
+          <tr><td>Fresh or cooked food, cheese, jerky, moist or uncertain home-dried produce</td><td>Keep out. Follow that food's own safe-storage instructions. Store-bought freeze-dried foods stay sealed in their original packaging.</td></tr>
+          <tr><td>Plain granulated sugar, plain salt</td><td>Store separately in clean, dry, tightly closed food-grade containers — no absorber. Brown sugar stays in its normal pantry packaging.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="fine"><strong style="color:var(--cream);">Plan past the bag:</strong> start with food your household already eats. If you store rice, beans or whole grains, plan for clean cooking water, a way to cook, and a grain mill if your recipes need flour from stored wheat berries.</p>
   </div>
 </section>
 
@@ -251,12 +292,12 @@
     <div class="section-label">Before You Start</div>
     <h2 class="section-title">What You'll Need</h2>
     <ul class="supply-list">
-      <li><span class="icon">🛍️</span><div><strong>Mylar bags</strong>Suppliers commonly recommend 5 mil or thicker for long-term storage. Quart, 1-gallon and 5-gallon are the common sizes.</div></li>
-      <li><span class="icon">🧪</span><div><strong>Oxygen absorbers</strong>Small iron-powder packets, rated in "cc." See the sizing chart below.</div></li>
-      <li><span class="icon">🔥</span><div><strong>A heat source to seal</strong>An impulse sealer is easiest. A clothes iron on high (no steam) or a flat hair straightener also works.</div></li>
-      <li><span class="icon">🫙</span><div><strong>A mason jar</strong>To hold any unused oxygen absorbers so they don't go to waste.</div></li>
-      <li><span class="icon">🖊️</span><div><strong>Permanent marker</strong>For labeling contents and date on every bag.</div></li>
-      <li><span class="icon">🪣</span><div><strong>Buckets or totes (recommended)</strong>Mylar won't stop a mouse. A lidded bucket or bin protects bags from rodents and punctures.</div></li>
+      <li><span class="icon">🛍️</span><div><strong>Food-grade Mylar bags</strong>New, undamaged, heat-sealable foil-laminate pouches sold for dry food storage, with sealing instructions. Thicker film resists punctures, but thickness alone doesn't tell you how well a bag blocks oxygen. Choose sizes you can finish after opening.</div></li>
+      <li><span class="icon">🧪</span><div><strong>Oxygen absorbers</strong>Intact, single-use packets made for dry food, with the maker's capacity chart. See the sizing guide below.</div></li>
+      <li><span class="icon">🔥</span><div><strong>A heat sealer suited to your bags</strong>An impulse sealer is the common choice. Use the bag and sealer makers' directions for settings.</div></li>
+      <li><span class="icon">🫙</span><div><strong>A jar with a gasketed lid</strong>To hold unused absorbers closed until the next batch, following their instructions.</div></li>
+      <li><span class="icon">🖊️</span><div><strong>Labels, marker and a clean, dry scoop</strong>For filling, and for labeling every bag.</div></li>
+      <li><span class="icon">🪣</span><div><strong>A rigid lidded bin</strong>Protects bags from punctures, light and pests. Where rodents are a problem, a securely lidded metal bin. The heat seal is the barrier; the bin is armor.</div></li>
     </ul>
   </div>
 </section>
@@ -269,42 +310,36 @@
 
     <div class="steps">
       <div class="step"><div>
-        <h3>Set up your station</h3>
-        <p>Lay out bags, food, a funnel or scoop, your sealer and the marker before you open the oxygen absorbers. Once that packet is opened, the clock starts.</p>
-        <div class="tip">Plug in the iron or sealer now so it's hot and ready.</div>
+        <h3>Set up before you open the absorbers</h3>
+        <p>Work indoors on a clean, dry surface with dry tools. Check the food for moisture, mold, pests and damage — discard anything suspect. Test your sealer on an empty bag of the same type: you want a continuous seal with no wrinkles, channels or melted holes.</p>
       </div></div>
 
       <div class="step"><div>
-        <h3>Fill the bag</h3>
-        <p>Pour in your dry food, leaving 3–4 inches of empty bag at the top so you have room to seal. Tap the bag on the counter to settle the contents and get rid of air pockets.</p>
-        <div class="tip">Wipe the inside of the bag's top edge clean — dust or flour in the seal area causes weak seals.</div>
+        <h3>Portion and label</h3>
+        <p>Label each bag with the food, the packing date and the lot number from the original package if it has one. Fill it with the verified-dry food, leaving enough clear bag at the top for a clean, flat seal.</p>
+        <div class="tip">Keep dust, crumbs and kernels off the sealing area — debris there makes weak seals.</div>
       </div></div>
 
       <div class="step"><div>
-        <h3>Add the oxygen absorber</h3>
-        <p>Open the absorber pack, drop the right size absorber on top of the food, and immediately put the leftovers in a mason jar with the lid tight. Absorbers start working the second they meet air, so move quickly — work in batches of 5–10 bags at a time.</p>
+        <h3>Add absorbers and seal promptly</h3>
+        <p>With the food and sealer ready, open the absorber supply. Put the rated amount of intact packets in each bag, keeping them away from the seal. Close the leftover absorbers back up as their instructions direct, and seal the filled bags promptly — absorbers start working as soon as they meet air.</p>
       </div></div>
 
       <div class="step"><div>
-        <h3>Push out the air &amp; seal</h3>
-        <p>Squeeze out as much air as you can, then seal straight across the top. With an iron, lay the bag's top edge over a board or the edge of a table and press firmly for a few seconds. Run a second seal just below the first for insurance.</p>
-        <div class="tip">A good seal looks smooth and even, with no wrinkles or gaps. Tug on it — it should not peel apart.</div>
+        <h3>Inspect the whole seal once it cools</h3>
+        <p>Look for one unbroken band across the full opening — no channels, wrinkles, trapped food, holes or weak edges. If you find a problem while you're still packing and the food is clean and dry, move it to a new bag with a fresh absorber.</p>
+        <div class="tip">A zipper is handy after opening, but use the heat seal for long-term storage.</div>
       </div></div>
 
       <div class="step"><div>
-        <h3>Label it</h3>
-        <p>Write what's inside and the date packed. If you're storing several sizes, note the weight too.</p>
+        <h3>Record the batch and store it</h3>
+        <p>Write down the food, amount, pack date, where it's stored, when you plan to rotate it, and which bags and absorbers you used. Put the bags in the lidded bin somewhere you can easily get to and check.</p>
       </div></div>
+    </div>
 
-      <div class="step"><div>
-        <h3>Check it in a day or two</h3>
-        <p>Within 24–48 hours most bags pull in tight around the food, like it was vacuum-packed. That's the absorber doing its job. Loose, bulky foods like pasta may not look as tight — that's normal. If a bag of rice or flour still looks puffy, cut it open, add a fresh absorber and reseal.</p>
-      </div></div>
-
-      <div class="step"><div>
-        <h3>Store it right</h3>
-        <p>Put sealed bags in a bucket or tote and keep them somewhere cool, dark and dry — off the concrete floor. Avoid attics, garages and anywhere that freezes or gets hot.</p>
-      </div></div>
+    <div class="note">
+      <strong>Read the seal, not the shape of the bag</strong>
+      Some bags pull tight as the absorber works, and some don't — most of the air in a bag is nitrogen, and it stays. A loose bag doesn't prove the absorber failed, and a tight bag doesn't prove the food is safe. Inspect the seal and keep track of how the bag has been stored. A bag that becomes unusually swollen should be thrown out.
     </div>
   </div>
 </section>
@@ -314,10 +349,10 @@
   <div class="wrap">
     <div class="section-label">Sizing Guide</div>
     <h2 class="section-title">How Big an Oxygen Absorber?</h2>
-    <p class="lead">Dense foods like flour and rice leave less air in the bag, so they need less. Loose foods like pasta and beans trap more air and need more.</p>
+    <p class="lead">Your absorber maker's capacity chart comes first. Absorbers have to cover the air above the food and between the pieces — so a partly filled bag, or loose food like pasta and beans, needs more capacity than a full bag of rice or wheat berries.</p>
     <div class="table-wrap">
       <table class="guide">
-        <thead><tr><th>Bag Size</th><th>Dense Foods<br>(rice, flour, wheat)</th><th>Loose Foods<br>(pasta, beans, oats)</th></tr></thead>
+        <thead><tr><th>Bag Size</th><th>Full Bag, Dense Food<br>(white rice, wheat berries)</th><th>Loose Food<br>(pasta, beans, oats)</th></tr></thead>
         <tbody>
           <tr><td>Quart</td><td>100 cc</td><td>150–300 cc</td></tr>
           <tr><td>1 Gallon</td><td>300–400 cc</td><td>500 cc</td></tr>
@@ -325,83 +360,50 @@
         </tbody>
       </table>
     </div>
-    <p class="fine"><strong style="color:var(--cream);">Rule of thumb:</strong> these are common supplier guidelines, not lab-tested figures. When in doubt, go bigger — a little extra absorber capacity does no harm, while too little leaves oxygen behind. Check the package your absorbers come in, and ask us if you're not sure. Sugar and salt don't need an absorber.</p>
+    <p class="fine"><strong style="color:var(--cream);">Rule of thumb only:</strong> these are common supplier guidelines, not lab-tested figures, and they don't come from the sources listed below. Always use the capacity chart for the absorbers you actually buy — if it says something different, follow the maker. Our 2-quart and 2-gallon bags fall between these rows, so go by the maker's chart for them, or ask us. Sugar and salt don't get an absorber.</p>
   </div>
 </section>
 
-<!-- ── WHAT TO STORE ── -->
-<section class="block">
-  <div class="wrap">
-    <div class="section-label">Choose Wisely</div>
-    <h2 class="section-title">What to Store — and What Not To</h2>
-    <p class="lead">Mylar is for <strong>dry, low-fat</strong> foods. Food should be dry enough to snap, not bend.</p>
-
-    <div class="dodont">
-      <div class="yes">
-        <h3>Great in Mylar</h3>
-        <ul>
-          <li>White rice</li>
-          <li>Dried beans, lentils, split peas</li>
-          <li>Wheat berries &amp; other whole grains</li>
-          <li>Rolled oats</li>
-          <li>Dry pasta</li>
-          <li>White flour &amp; cornmeal (shorter life)</li>
-          <li>Nonfat powdered milk</li>
-          <li>Freeze-dried foods</li>
-          <li>Sugar &amp; salt — <em>no absorber needed</em></li>
-        </ul>
-      </div>
-      <div class="no">
-        <h3>Keep Out of Mylar</h3>
-        <ul>
-          <li>Nuts, seeds &amp; trail mix</li>
-          <li>Whole-wheat flour</li>
-          <li>Granola &amp; anything with added oil or fat</li>
-          <li>Jerky &amp; dried meats</li>
-          <li>Soft or chewy dried fruit</li>
-          <li>Home-dried food that still bends or feels leathery</li>
-          <li>Anything with more than about 10% moisture</li>
-        </ul>
-      </div>
-    </div>
-
-    <p class="fine" style="margin-top:1.5rem;"><strong>A note on brown rice:</strong> food-safe oxygen absorbers can be used with it, but its natural oils mean it keeps for a much shorter time than white rice — plan to rotate it within a year or two rather than counting on decades.</p>
-
-    <div class="warning">
-      <strong>⚠ Important: Moisture + No Oxygen = Botulism Risk</strong>
-      Oxygen-reducing packaging creates conditions that botulism bacteria can thrive in. Utah State University Extension advises that foods for long-term storage should be about 10% moisture or less, and warns that moist foods sealed this way can cause botulism. If it isn't bone-dry, don't seal it with an absorber.
-    </div>
-  </div>
-</section>
-
-<!-- ── SHELF LIFE ── -->
+<!-- ── STORE, ROTATE, DISCARD ── -->
 <section class="block block-dark">
   <div class="wrap">
-    <div class="section-label">How Long Will It Last?</div>
-    <h2 class="section-title">Typical Shelf Life</h2>
-    <p class="lead">Heat is the big enemy. Citing USDA, Utah State University Extension says shelf life is cut in half for every 10.8°F rise in storage temperature, and recommends a steady 40–60°F.</p>
-    <div class="table-wrap">
-      <table class="guide">
-        <thead><tr><th>Food</th><th>Commonly Quoted Best-Case Shelf Life</th></tr></thead>
-        <tbody>
-          <tr><td>White rice</td><td>25+ years</td></tr>
-          <tr><td>Wheat berries</td><td>25+ years</td></tr>
-          <tr><td>Dried beans</td><td>25+ years (older beans take longer to cook)</td></tr>
-          <tr><td>Rolled oats</td><td>20+ years</td></tr>
-          <tr><td>Dry pasta</td><td>20+ years</td></tr>
-          <tr><td>Nonfat powdered milk</td><td>15–20 years</td></tr>
-          <tr><td>White flour</td><td>5–10 years</td></tr>
-          <tr><td>Sugar &amp; salt</td><td>Indefinitely</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="fine">These are widely repeated industry estimates for ideal conditions — not guarantees, and not figures from the sources listed below. Real-world results depend on moisture, temperature and how well the bag was sealed. Always check food when you open it — if it smells off, looks wrong or shows signs of moisture or pests, throw it out.</p>
+    <div class="section-label">After You Seal</div>
+    <h2 class="section-title">Store, Rotate &amp; Check</h2>
 
     <div class="tips-grid">
-      <div><strong>🌡️ Keep it cool</strong>A steady 40–60°F is ideal. A basement closet beats a hot garage every time.</div>
-      <div><strong>🔄 Rotate</strong>Eat from your storage and replace it. First in, first out.</div>
-      <div><strong>🐭 Guard against critters</strong>Rodents chew right through Mylar. Use buckets or bins.</div>
-      <div><strong>🔁 Reseal after opening</strong>Cut just below the seal so the bag can be resealed (use a fresh absorber).</div>
+      <div><strong>🌡️ Cool, dry, dark, off the floor</strong>Utah State University Extension gives roughly 40–70°F as a good range for food quality. In Tennessee, an interior pantry usually beats an attic or garage. Use a basement only if it stays reliably dry. Keep bins away from sun, heat, leaks, condensation and flood-prone spots.</div>
+      <div><strong>🔄 Rotate and inspect</strong>Use the oldest suitable food first. Check bags during normal rotation and after any leak, flood or pest problem: seams, labels, punctures, moisture and swelling. Write down the date of your next check.</div>
+      <div><strong>🐭 Guard against critters</strong>Rodents chew right through Mylar. Keep bags in a lidded bin — metal where rodents are a concern.</div>
+      <div><strong>🥄 After opening</strong>Use clean, dry utensils and keep the rest in a clean, dry container. An opened bag starts a new, shorter storage period — follow normal storage guidance for that food. Remove the absorbers and throw them away.</div>
+    </div>
+
+    <div class="warning">
+      <strong>⚠ When in doubt, throw it out — don't taste it</strong>
+      Throw out home-packed bags with any of these:
+      <ul class="discard-list">
+        <li>Damp contents or condensation inside</li>
+        <li>Mold or insects</li>
+        <li>Unexplained swelling</li>
+        <li>Leaks or punctures that leave you unsure how the food was stored</li>
+        <li>Water damage or possible contact with flood water</li>
+      </ul>
+      Normal smell or appearance can't prove stored food is safe — the CDC notes you can't see, smell or taste the toxin that causes botulism. When you find pests or moisture, clean the shelf and check the bags around it.
+    </div>
+
+    <h3 style="font-family:'Playfair Display',serif; color:var(--cream); font-size:1.6rem; margin-top:3rem;">How Long Will It Last?</h3>
+    <p class="lead">There's no single answer: storage temperature, the food itself, the packaging and how it was handled all affect quality. As an example, Utah State University Extension reports that properly sealed and stored polished white rice will store well for 25 to 30 years.</p>
+    <p class="fine"><strong style="color:var(--cream);">Estimate only:</strong> that figure describes the quality of one food under favorable conditions. It is not an expiration date or a safety guarantee for a home-packed bag, and it doesn't carry over to other foods. Rotate on your normal schedule and keep a record of how each batch has been stored.</p>
+  </div>
+</section>
+
+<!-- ── FIRST BATCH ── -->
+<section class="block">
+  <div class="wrap">
+    <div class="section-label">Try It Once</div>
+    <h2 class="section-title">A Practical First Batch</h2>
+    <div class="example">
+      <span class="tag">Example</span>
+      A Tennessee household starts with one bag of plain polished white rice it already cooks regularly. It confirms the rice's specification, picks a meal-sized bag, matches the absorber to that bag and fill using the maker's chart, and writes down one packing date and one rotation date. At its next pantry check, it can find the bag, read the label, and judge its condition with the same checklist.
     </div>
   </div>
 </section>
@@ -413,10 +415,10 @@
     <h2>Get Your Mylar Bags<br>at Tennessee Readiness</h2>
     <p>No need to order online and wait. We stock Mylar bags right here in Cosby — come pick up what you need, and ask us anything about getting your food storage started.</p>
 
-    <!-- EDIT: change these sizes to match what's actually on the shelf -->
     <div class="promo-sizes">
-      <div><div class="size">Quart</div><div class="use">Spices, small batches, kits</div></div>
-      <div><div class="size">1 Gallon</div><div class="use">Everyday portions</div></div>
+      <div><div class="size">2 Quart</div><div class="use">Small batches &amp; kits</div></div>
+      <div><div class="size">1 Gallon</div><div class="use">Meal-sized portions</div></div>
+      <div><div class="size">2 Gallon</div><div class="use">Family-sized portions</div></div>
       <div><div class="size">5 Gallon</div><div class="use">Bulk — lines a bucket</div></div>
     </div>
 
@@ -444,10 +446,17 @@
 <!-- ── SOURCES ── -->
 <section class="block" style="padding-top:3rem; padding-bottom:3rem;">
   <div class="wrap sources">
-    <div class="section-label">Learn More</div>
-    <p>The storage-temperature, moisture and botulism guidance on this page comes from Utah State University Extension. Absorber sizes, bag thickness and the shelf-life table are common industry rules of thumb. For more detail, see
-      <a href="https://extension.usu.edu/news_sections/home_family_and_food/foodstorage" target="_blank" rel="noopener">7 Factors That Prolong Your Food Storage Supply</a> and
-      <a href="https://extension.usu.edu/preserve-the-harvest/food-storage-packaging" target="_blank" rel="noopener">Food Storage Packaging</a>.
+    <div class="section-label">Sources</div>
+    <p>The moisture, botulism, packaging, storage-temperature and white-rice guidance on this page comes from Utah State University Extension; the pest, toxin and flood guidance from University of Minnesota Extension, the CDC and the FDA. The absorber sizing chart is a common industry rule of thumb, not from these sources.</p>
+    <p style="margin-top:0.75rem;">
+      Utah State University Extension: <a href="https://extension.usu.edu/news_sections/home_family_and_food/get_the_most_of_food_storage" target="_blank" rel="noopener">How Can I Get the Most Out of My Food Storage</a> ·
+      <a href="https://extension.usu.edu/preserve-the-harvest/research/packaging-methods" target="_blank" rel="noopener">Food Storage Packaging Methods</a> ·
+      <a href="https://extension.usu.edu/preserve-the-harvest/research/storage-conditions" target="_blank" rel="noopener">Food Storage Conditions</a> ·
+      <a href="https://extension.usu.edu/preserve-the-harvest/research/storing-white-rice" target="_blank" rel="noopener">Storing White Rice</a> ·
+      <a href="https://extension.usu.edu/iron/files/KathysCornerJanFeb2022.pdf" target="_blank" rel="noopener">Long-Term Food Storage: Using Mylar Bags &amp; Oxygen Absorbers</a><br>
+      <a href="https://extension.umn.edu/garden-and-home/home-maintenance/household-insects/pantry-pests-insects-found-in-stored-food" target="_blank" rel="noopener">University of Minnesota Extension: Pantry Pests</a> ·
+      <a href="https://www.cdc.gov/botulism/prevention/home-canned-foods.html" target="_blank" rel="noopener">CDC: Botulism</a> ·
+      <a href="https://www.fda.gov/food/food-safety-during-emergencies/after-storm-or-flooding-key-tips-consumers-about-food-safety" target="_blank" rel="noopener">FDA: After a Storm or Flooding</a>
     </p>
   </div>
 </section>
